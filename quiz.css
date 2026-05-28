@@ -1,0 +1,274 @@
+/* ========== QUIZ SECTION ========== */
+
+.level-selector {
+  background: var(--card-bg);
+  border-radius: 30px;
+  padding: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+}
+
+.level-selector h3 {
+  font-size: 1.5rem;
+  padding-bottom: 2rem;
+  color: var(--text-primary);
+}
+
+.level-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 1.5rem 0;
+}
+
+.level-btn {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.level-btn.easy {
+  background: #4caf50;
+  color: white;
+}
+
+.level-btn.medium {
+  background: #ff9800;
+  color: white;
+}
+
+.level-btn.hard {
+  background: #f44336;
+  color: white;
+}
+
+.level-btn.active {
+  transform: scale(1.05);
+  box-shadow: 0 0 0 3px var(--text-primary);
+}
+
+.level-btn:hover {
+  transform: scale(1.05);
+}
+
+.start-quiz-btn {
+  background: #2e7d32;
+  color: white;
+  padding: 1rem 2.5rem;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 1rem;
+  transition: all 0.3s;
+  font-family: "Tajawal", sans-serif;
+}
+
+.start-quiz-btn:hover {
+  background: #1b5e20;
+  transform: translateY(-2px);
+}
+
+/* ===== حاوية المسابقة ===== */
+.quiz-container {
+  background: var(--card-bg);
+  border-radius: 30px;
+  padding: 2rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+  display: none;
+}
+
+.quiz-container.active {
+  display: block;
+}
+
+.quiz-header h3 {
+  text-align: center;
+  color: #2e7d32;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+/* ===== شريط التقدم ===== */
+.progress-bar {
+  width: 100%;
+  height: 12px;
+  background: var(--border-color);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #2e7d32;
+  transition: width 0.3s;
+  border-radius: 10px;
+}
+
+/* ===== السؤال والخيارات ===== */
+.question-text {
+  font-size: 1.2rem;
+  margin: 1.5rem 0;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin: 1.5rem 0;
+}
+
+.option {
+  background: var(--bg-primary);
+  padding: 1rem;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.option:hover {
+  transform: scale(1.02);
+  border-color: #2e7d32;
+}
+
+.option.correct-highlight {
+  background: #4caf50 !important;
+  color: white;
+  border-color: #2e7d32;
+}
+
+.option.wrong-highlight {
+  background: #f44336 !important;
+  color: white;
+  border-color: #d32f2f;
+}
+
+/* ===== Footer ===== */
+.quiz-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+#quizCounter {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.btn {
+  background: #2e7d32;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.8rem;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: all 0.3s;
+  font-family: "Tajawal", sans-serif;
+}
+
+.btn:hover {
+  background: #1b5e20;
+  transform: scale(1.05);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===== النتيجة ===== */
+.result {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 15px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* ===== أزرار اختيار نوع المسابقة ===== */
+.quiz-category-selector {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.category-select-btn {
+  padding: 0.8rem 1.5rem;
+  border: 2px solid #2e7d32;
+  background: transparent;
+  color: #2e7d32;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: "Tajawal", sans-serif;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.category-select-btn:hover {
+  background: #2e7d32;
+  color: white;
+}
+
+/* ===== محدد العملية الحسابية ===== */
+.math-operation-selector {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  padding: 1rem;
+  background: var(--bg-primary);
+  border-radius: 15px;
+  border: 1px solid var(--border-color);
+}
+
+.operation-select-btn {
+  padding: 0.7rem 1.2rem;
+  border: 2px solid #2e7d32;
+  background: transparent;
+  color: #2e7d32;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: "Tajawal", sans-serif;
+  font-size: 0.95rem;
+  transition: all 0.3s;
+}
+
+.operation-select-btn:hover {
+  background: #e8f5e9;
+  transform: translateY(-2px);
+}
+
+/* تأثير التمييز عند التوجيه */
+#quiz.highlight-section {
+  animation: highlightPulse 0.6s ease;
+}
+
+@keyframes highlightPulse {
+  0% { box-shadow: 0 0 0 0 rgba(46, 125, 50, 0.5); }
+  50% { box-shadow: 0 0 0 15px rgba(46, 125, 50, 0.1); }
+  100% { box-shadow: 0 0 0 0 rgba(46, 125, 50, 0); }
+}

@@ -1,0 +1,275 @@
+/* ========== PRAYER TIMES STYLES ========== */
+
+/* حاوية التحميل */
+.prayer-loading-container {
+  text-align: center;
+  padding: 3rem;
+}
+
+.prayer-spinner {
+  font-size: 3rem;
+  color: #2e7d32;
+  margin-bottom: 1rem;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.7; }
+}
+
+/* تاريخ اليوم */
+.prayer-date-header {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #2e7d32;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: var(--card-bg);
+  border-radius: 15px;
+  box-shadow: var(--shadow);
+}
+
+.prayer-date-header i {
+  margin-left: 0.5rem;
+}
+
+/* ========== العداد التنازلي للصلاة القادمة ========== */
+.next-prayer-box {
+  background: linear-gradient(135deg, #1b5e20, #2e7d32);
+  color: white;
+  padding: 2rem;
+  border-radius: 20px;
+  text-align: center;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 30px rgba(46, 125, 50, 0.3);
+  animation: glowPulse 2s infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 10px 30px rgba(46, 125, 50, 0.3); }
+  50% { box-shadow: 0 15px 40px rgba(46, 125, 50, 0.6); }
+}
+
+.next-prayer-label {
+  font-size: 1rem;
+  opacity: 0.9;
+  margin-bottom: 0.5rem;
+}
+
+.next-prayer-name {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* العداد */
+.countdown-timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.countdown-item {
+  text-align: center;
+}
+
+.countdown-number {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: bold;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  min-width: 80px;
+}
+
+.countdown-label {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  margin-top: 0.3rem;
+  display: block;
+}
+
+.countdown-separator {
+  font-size: 2.5rem;
+  font-weight: bold;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* ========== شبكة المواقيت ========== */
+.prayer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+.prayer-card {
+  background: var(--card-bg);
+  padding: 1.5rem 1rem;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.prayer-card:hover {
+  transform: translateY(-5px);
+}
+
+/* الصلاة النشطة (القادمة) */
+.prayer-card.active-prayer {
+  border-color: #2e7d32;
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  animation: pulseBorder 2s infinite;
+  transform: scale(1.03);
+}
+
+@keyframes pulseBorder {
+  0%, 100% { border-color: #2e7d32; }
+  50% { border-color: #4caf50; }
+}
+
+.prayer-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.prayer-card .prayer-icon i {
+  color: #2e7d32;
+}
+
+.prayer-card.active-prayer .prayer-icon i {
+  color: #1b5e20;
+  animation: bounce 0.5s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.prayer-card h4 {
+  font-size: 1rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.prayer-time {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #2e7d32;
+}
+
+/* ========== الوضع الليلي ========== */
+body.dark-mode .prayer-card.active-prayer {
+  background: linear-gradient(135deg, #a5d6a7, #81c784);
+  border-color: #4caf50;
+  box-shadow: 0 0 25px rgba(76, 175, 80, 0.4);
+}
+
+body.dark-mode .prayer-card.active-prayer h4 {
+  color: #000000 !important;
+  font-weight: 800;
+}
+
+body.dark-mode .prayer-card.active-prayer .prayer-time {
+  color: #1b5e20 !important;
+  font-weight: 800;
+}
+
+body.dark-mode .prayer-card.active-prayer .prayer-icon i {
+  color: #1b5e20 !important;
+}
+
+/* ========== رسائل الخطأ ========== */
+.prayer-error {
+  text-align: center;
+  padding: 3rem;
+  color: #f44336;
+}
+
+.prayer-error i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.prayer-retry-btn {
+  background: #2e7d32;
+  color: white;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 50px;
+  cursor: pointer;
+  margin-top: 1rem;
+  font-family: "Tajawal", sans-serif;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.prayer-retry-btn:hover {
+  background: #1b5e20;
+  transform: translateY(-2px);
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .countdown-number {
+    font-size: 1.8rem;
+    min-width: 60px;
+    padding: 0.4rem 0.6rem;
+  }
+  
+  .countdown-separator {
+    font-size: 1.8rem;
+  }
+  
+  .next-prayer-name {
+    font-size: 1.5rem;
+  }
+  
+  .prayer-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .prayer-card {
+    padding: 1rem 0.5rem;
+  }
+  
+  .prayer-card h4 {
+    font-size: 0.9rem;
+  }
+  
+  .prayer-time {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .prayer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .countdown-number {
+    font-size: 1.5rem;
+    min-width: 50px;
+  }
+  
+  .next-prayer-box {
+    padding: 1.5rem 1rem;
+  }
+  
+  .next-prayer-name {
+    font-size: 1.3rem;
+  }
+}

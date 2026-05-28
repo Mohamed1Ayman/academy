@@ -308,6 +308,9 @@ const tafseerQuestionsByLevel = {
   ],
 };
 
+window.tafseerQuestionsByLevel = tafseerQuestionsByLevel;
+// =================================
+
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = tafseerQuestionsByLevel;
 }

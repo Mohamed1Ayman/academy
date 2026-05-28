@@ -561,3 +561,99 @@ window.addEventListener("DOMContentLoaded", () => {
   buildCategoryButtons();
   displayAzkar("أذكار الصباح");
 });
+
+// ==================== Dropdown Mobile (إصلاح نهائي) ====================
+document.addEventListener('DOMContentLoaded', function() {
+  const dropdowns = document.querySelectorAll('.dropdown');
+  const navLinksEl = document.getElementById('navLinks');
+  
+  dropdowns.forEach(dropdown => {
+    const toggle = dropdown.querySelector('.dropdown-toggle');
+    
+    if (toggle) {
+      toggle.addEventListener('click', function(e) {
+        if (window.innerWidth <= 1024) {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          const isActive = dropdown.classList.contains('active');
+          
+          // قفل كل القوائم أولاً
+          dropdowns.forEach(d => d.classList.remove('active'));
+          
+          // فتح القائمة الحالية لو كانت مقفولة
+          if (!isActive) {
+            dropdown.classList.add('active');
+          }
+        }
+      });
+    }
+  });
+  
+  // الضغط على الروابط داخل القائمة
+  document.querySelectorAll('.dropdown-menu a').forEach(link => {
+    link.addEventListener('click', function(e) {
+      // سيب الرابط يشتغل عادي
+      setTimeout(() => {
+        dropdowns.forEach(d => d.classList.remove('active'));
+        if (navLinksEl && window.innerWidth <= 1024) {
+          navLinksEl.classList.remove('active');
+        }
+      }, 200);
+    });
+  });
+  
+  // الضغط بره القائمة
+  document.addEventListener('click', function(e) {
+    if (window.innerWidth <= 1024) {
+      if (!e.target.closest('.dropdown')) {
+        dropdowns.forEach(d => d.classList.remove('active'));
+      }
+    }
+  });
+});
+
+// ==================== التنقل لأقسام المسابقات من القائمة المنسدلة ====================
+document.querySelectorAll('.dropdown-menu a[href="#quiz"]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    const categoryMap = {
+      'مسابقة القرآن': 'quran',
+      'مسابقة العقيدة': 'aqeeda',
+      'مسابقة التفسير': 'tafseer',
+      'مسابقة الحساب': 'math',
+      'مسابقة النحو': 'arabic'
+    };
+    
+    const text = this.textContent.trim();
+    const category = categoryMap[text];
+    
+    if (category && typeof currentCategory !== 'undefined') {
+      e.preventDefault();
+      currentCategory = text.includes('الحساب') ? 'math' : 
+                        text.includes('العقيدة') ? 'aqeeda' :
+                        text.includes('التفسير') ? 'tafseer' :
+                        text.includes('النحو') ? 'arabic' : 'quran';
+      
+      // تحديث الأزرار
+      document.querySelectorAll('.category-select-btn').forEach((btn, i) => {
+        const catKey = Object.keys(allQuestions)[i];
+        btn.style.background = catKey === currentCategory ? '#2e7d32' : 'transparent';
+        btn.style.color = catKey === currentCategory ? 'white' : '#2e7d32';
+      });
+      
+      // إغلاق القائمة
+      dropdowns.forEach(d => d.classList.remove('active'));
+      if (navLinksEl) navLinksEl.classList.remove('active');
+      
+      // تمرير للقسم
+      const quizSection = document.getElementById('quiz');
+      if (quizSection) {
+        setTimeout(() => {
+          quizSection.scrollIntoView({ behavior: 'smooth' });
+        }, 300);
+      }
+    }
+  });
+});
+
+

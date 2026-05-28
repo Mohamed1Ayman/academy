@@ -1,0 +1,206 @@
+/* ========== HERO SECTION ========== */
+
+#home.hero {
+  position: relative;
+  min-height: 100vh;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  max-width: 100%;
+  width: 100%;
+  border-radius: 0;
+}
+
+/* استثناء الهيرو من padding العام */
+section#home,
+#home.hero,
+#home {
+  padding: 0 !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+/* خلفية الفيديو */
+.video-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.video-background video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+}
+
+/* طبقة شفافة فوق الفيديو */
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.81);
+  z-index: 0;
+}
+
+/* المحتوى النصي */
+.hero-content {
+  position: relative;
+  z-index: 1;
+  color: white;
+  padding: 0 5%;
+  width: 100%;
+  max-width: 800px;
+}
+
+.hero-content h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: 1.5rem;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  animation: fadeInDown 1s ease;
+  color: #ffffff;
+}
+
+.hero-content p {
+  font-size: clamp(2rem, 3.5vw, 2.3rem);
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 700px;
+  margin: 0 auto 1rem;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 1s ease 0.3s both;
+}
+
+.hero-content .sub-text {
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 1.5rem;
+  animation: fadeInUp 1s ease 0.6s both;
+}
+
+/* أيقونات التواصل */
+.soc {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ 
+}
+
+.soc a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;      /* كان 60px */
+  height: 50px;     /* كان 60px */
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+
+
+.soc a i {
+  font-size: 2.5rem !important;
+  color: white;
+  transition: all 0.3s ease;
+  line-height: 1;
+  outline: none;
+}
+
+.soc a .fa-whatsapp {
+  color: #25d366;
+  text-shadow: 0 0 10px #25d366;
+}
+
+.soc a .fa-facebook-f {
+  color: #1877f2;
+  text-shadow: 0 0 10px #1877f2;
+}
+
+
+
+
+
+/* أنيميشن */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+  
+  .hero-content p {
+    font-size: 1rem;
+    padding: 0 10px;
+  }
+  
+  .hero-content .sub-text {
+    font-size: 0.9rem;
+  }
+  
+  .soc a {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .soc a i {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content h1 {
+    font-size: 1.6rem;
+  }
+  
+  .hero-content p {
+    font-size: 0.9rem;
+  }
+  
+  .soc a {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .soc a i {
+    font-size: 1.1rem;
+  }
+}

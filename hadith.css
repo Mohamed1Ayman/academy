@@ -1,0 +1,446 @@
+/* ========================================== */
+/* HADITH SYSTEM - تصميم عصري */
+/* ========================================== */
+
+/* ===== هيدر الكتاب ===== */
+.hadith-book-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  position: relative;
+}
+
+.hadith-book-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, #2e7d32, #4caf50, #2e7d32);
+  border-radius: 2px;
+}
+
+.hadith-book-header h2 {
+  color: #2e7d32;
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 0.3rem;
+}
+
+.hadith-book-header p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+.hadith-chapter-name {
+  color: #ff9800;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-top: 0.5rem;
+  background: rgba(255, 152, 0, 0.1);
+  display: inline-block;
+  padding: 0.4rem 1.5rem;
+  border-radius: 50px;
+}
+
+/* ===== أزرار التنقل العلوية ===== */
+.hadith-chapters-bar {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.chapter-nav-btn {
+  padding: 0.7rem 1.8rem;
+  border: 2px solid #2e7d32;
+  background: white;
+  color: #2e7d32;
+  border-radius: 50px;
+  cursor: pointer;
+  font-family: "Tajawal", sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.chapter-nav-btn:hover {
+  background: #2e7d32;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(46, 125, 50, 0.3);
+}
+
+.chapter-nav-btn i {
+  font-size: 1rem;
+}
+
+/* ===== شبكة الأبواب ===== */
+.chapters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.2rem;
+  padding: 0.5rem 0;
+}
+
+.chapter-card {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 20px;
+  border: 2px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.chapter-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background: linear-gradient(180deg, #2e7d32, #4caf50);
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+  border-radius: 0 3px 3px 0;
+}
+
+.chapter-card:hover::before {
+  transform: scaleY(1);
+}
+
+.chapter-card:hover {
+  border-color: #2e7d32;
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(46, 125, 50, 0.15);
+}
+
+.chapter-card:hover .chapter-arrow {
+  transform: translateX(-5px);
+  color: #2e7d32;
+}
+
+.chapter-number {
+  background: linear-gradient(135deg, #2e7d32, #4caf50);
+  color: white;
+  min-width: 50px;
+  height: 50px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+}
+
+.chapter-content {
+  flex: 1;
+}
+
+.chapter-content h4 {
+  font-size: 1.05rem;
+  color: var(--text-primary);
+  margin-bottom: 0.3rem;
+  font-weight: 700;
+}
+
+.chapter-content p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.chapter-content p i {
+  color: #2e7d32;
+  font-size: 0.8rem;
+}
+
+.chapter-arrow {
+  color: #ccc;
+  font-size: 1.3rem;
+  transition: all 0.3s ease;
+}
+
+/* ===== بطاقة الحديث ===== */
+.hadith-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.hadith-card {
+  display: flex;
+  gap: 1.5rem;
+  padding: 2rem;
+  background: var(--card-bg);
+  border-radius: 20px;
+  border: 2px solid var(--border-color);
+  transition: all 0.35s ease;
+  position: relative;
+  border-right: 5px solid #2e7d32;
+}
+
+.hadith-card:hover {
+  border-color: #2e7d32;
+  box-shadow: 0 10px 35px rgba(46, 125, 50, 0.12);
+  transform: translateX(-4px);
+}
+
+.hadith-card:hover .hadith-number {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* رقم الحديث */
+.hadith-number {
+  background: linear-gradient(135deg, #2e7d32, #1b5e20);
+  color: white;
+  min-width: 48px;
+  height: 48px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+  transition: all 0.3s ease;
+}
+
+/* النص العربي */
+.hadith-arabic {
+  font-size: 1.5rem;
+  line-height: 2.5;
+  font-family: "Traditional Arabic", "Uthmanic", "Scheherazade New", "Amiri", "Noto Naskh Arabic", serif;
+  color: var(--text-primary);
+  text-align: right;
+  direction: rtl;
+  word-spacing: 4px;
+  letter-spacing: 0.3px;
+}
+
+/* اسم الراوي */
+.hadith-narrator {
+  font-size: 0.9rem;
+  color: #2e7d32;
+  margin-top: 0.8rem;
+  font-weight: 700;
+  background: rgba(46, 125, 50, 0.07);
+  display: inline-block;
+  padding: 0.4rem 1.2rem;
+  border-radius: 50px;
+  border: 1px solid rgba(46, 125, 50, 0.15);
+}
+
+/* ===== أزرار التنقل السفلي ===== */
+.hadith-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+  padding: 1rem;
+  background: var(--card-bg);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+}
+
+.hadith-pagination button {
+  padding: 0.8rem 2rem;
+  border: 2px solid #2e7d32;
+  background: white;
+  color: #2e7d32;
+  border-radius: 50px;
+  cursor: pointer;
+  font-family: "Tajawal", sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hadith-pagination button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #2e7d32, #4caf50);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(46, 125, 50, 0.35);
+}
+
+.hadith-pagination button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  background: #f5f5f5;
+  border-color: #ddd;
+}
+
+.hadith-pagination span {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  background: var(--bg-primary);
+  padding: 0.5rem 1.5rem;
+  border-radius: 50px;
+}
+
+/* ===== البحث ===== */
+.hadith-search-container {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  margin-bottom: 2rem;
+  border: 2px solid var(--border-color);
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  right: 18px;
+  color: #2e7d32;
+  font-size: 1.3rem;
+  z-index: 1;
+}
+
+.hadith-search-input {
+  width: 100%;
+  padding: 1rem 3rem 1rem 1.5rem;
+  border: 2px solid var(--border-color);
+  border-radius: 15px;
+  font-size: 1.1rem;
+  font-family: "Tajawal", sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: all 0.3s;
+}
+
+.hadith-search-input:focus {
+  outline: none;
+  border-color: #2e7d32;
+  box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.08);
+}
+
+/* ===== تحميل وخطأ ===== */
+.hadith-loading,
+.hadith-error {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-secondary);
+}
+
+.hadith-loading i,
+.hadith-error i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.hadith-loading i { color: #2e7d32; }
+.hadith-error i { color: #f44336; }
+
+/* ===== الوضع الليلي ===== */
+body.dark-mode .hadith-card {
+  background: var(--card-bg);
+  border-right-color: #4caf50;
+}
+
+body.dark-mode .hadith-arabic {
+  color: #e8e8e8;
+}
+
+body.dark-mode .hadith-narrator {
+  background: rgba(76, 175, 80, 0.12);
+  color: #81c784;
+  border-color: rgba(76, 175, 80, 0.2);
+}
+
+body.dark-mode .hadith-pagination {
+  background: var(--card-bg);
+}
+
+body.dark-mode .hadith-pagination button {
+  background: var(--card-bg);
+  color: #81c784;
+  border-color: #4caf50;
+}
+
+body.dark-mode .hadith-pagination button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #2e7d32, #4caf50);
+  color: white;
+}
+
+body.dark-mode .hadith-pagination button:disabled {
+  background: #1a1a1a;
+  border-color: #333;
+}
+
+body.dark-mode .chapter-card {
+  background: var(--card-bg);
+}
+
+body.dark-mode .chapter-nav-btn {
+  background: var(--card-bg);
+  color: #81c784;
+  border-color: #4caf50;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .hadith-card {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.2rem;
+    border-right-width: 4px;
+  }
+  
+  .hadith-number {
+    align-self: flex-end;
+    min-width: 40px;
+    height: 40px;
+    font-size: 0.9rem;
+  }
+  
+  .hadith-arabic {
+    font-size: 1.3rem;
+    line-height: 2.2;
+  }
+  
+  .hadith-pagination {
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+  
+  .hadith-pagination button {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .chapters-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .hadith-book-header h2 {
+    font-size: 1.5rem;
+  }
+}

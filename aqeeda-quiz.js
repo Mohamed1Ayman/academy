@@ -263,7 +263,9 @@ const aqeedaQuestionsByLevel = {
   ],
 };
 
-// تصدير البيانات لتكون متاحة في الملفات الأخرى
+window.aqeedaQuestionsByLevel = aqeedaQuestionsByLevel;
+
+// السطر ده كان موجود - سيبوه
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = aqeedaQuestionsByLevel;
 }

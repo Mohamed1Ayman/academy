@@ -98,10 +98,10 @@ function shuffleArray(array) {
 
 // بيانات العمليات الحسابية
 const mathOperations = {
-  addition: { label: "➕ الجمع", icon: "fa-plus", symbol: "+" },
-  subtraction: { label: "➖ الطرح", icon: "fa-minus", symbol: "-" },
-  multiplication: { label: "✖️ الضرب", icon: "fa-xmark", symbol: "×" },
-  division: { label: "➗ القسمة", icon: "fa-divide", symbol: "÷" }
+  addition: { label: " الجمع", icon: "fa-plus", symbol: "+" },
+  subtraction: { label: " الطرح", icon: "fa-minus", symbol: "-" },
+  multiplication: { label: " الضرب", icon: "fa-xmark", symbol: "×" },
+  division: { label: "القسمة", icon: "fa-divide", symbol: "÷" }
 };
 
 // بيانات المستويات

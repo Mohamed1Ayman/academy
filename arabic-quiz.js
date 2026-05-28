@@ -159,6 +159,9 @@ const arabicQuestionsByLevel = {
   ],
 };
 
+window.arabicQuestionsByLevel = arabicQuestionsByLevel;
+// =====================================
+
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = arabicQuestionsByLevel;
 }

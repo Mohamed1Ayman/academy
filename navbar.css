@@ -1,0 +1,276 @@
+/* =========================
+   NAVBAR MODERN UI
+========================= */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 0.7rem 5%;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+}
+
+body.dark-mode .navbar {
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ===== LOGO ===== */
+.logo {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #2e7d32;
+}
+
+.logo span {
+  color: var(--text-primary);
+}
+
+/* ===== NAV LINKS ===== */
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  align-items: center;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-primary);
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  color: #2e7d32;
+}
+
+/* ===== DROPDOWN ===== */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  background: var(--card-bg);
+  min-width: 220px;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+  padding: 0.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: 0.3s;
+}
+
+.dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-menu li {
+  list-style: none;
+}
+
+.dropdown-menu li a {
+  display: block;
+  padding: 0.7rem;
+  border-radius: 8px;
+}
+
+.dropdown-menu li a:hover {
+  background: rgba(46,125,50,0.08);
+}
+
+/* ===== MENU ICON ===== */
+.menu-icon {
+  display: none;
+  cursor: pointer;
+  z-index: 1100;
+}
+
+.menu-icon span {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background: var(--text-primary);
+  margin: 5px 0;
+  transition: 0.3s;
+}
+
+/* animation */
+.menu-icon.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.menu-icon.active span:nth-child(2) {
+  opacity: 0;
+}
+.menu-icon.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* ===== OVERLAY ===== */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+  z-index: 999;
+}
+
+.nav-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 1024px) {
+
+  .menu-icon {
+    display: block;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 300px;
+    height: 100vh;
+    background: var(--nav-bg);
+    flex-direction: column;
+    padding: 2rem 1rem;
+    gap: 0.8rem;
+    transition: 0.35s ease;
+    z-index: 1001;
+  }
+
+  .nav-links.active {
+    right: 0;
+  }
+
+  .dropdown-menu {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    display: none;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .dropdown.active .dropdown-menu {
+    display: block;
+  }
+}
+
+/* prevent scroll when menu open */
+body.menu-open {
+  overflow: hidden;
+}
+
+
+/* ========== THEME TOGGLE SWITCH ========== */
+
+.theme-toggle {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.toggle-track {
+  width: 70px;
+  height: 36px;
+  background: #e8f5e9;
+  border-radius: 50px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  transition: all 0.4s ease;
+  border: 2px solid #c8e6c9;
+  overflow: hidden;
+}
+
+body.dark-mode .toggle-track {
+  background: #1a237e;
+  border-color: #283593;
+}
+
+/* أيقونة الشمس */
+.toggle-sun {
+  color: #ff9800;
+  font-size: 1rem;
+  z-index: 1;
+  transition: all 0.4s ease;
+  filter: drop-shadow(0 0 4px rgba(255, 152, 0, 0.6));
+}
+
+body.dark-mode .toggle-sun {
+  color: #ffb74d;
+  opacity: 0.6;
+  filter: drop-shadow(0 0 2px rgba(255, 183, 77, 0.3));
+}
+
+/* أيقونة القمر */
+.toggle-moon {
+  color: #5c6bc0;
+  font-size: 1rem;
+  z-index: 1;
+  transition: all 0.4s ease;
+  opacity: 0.5;
+}
+
+body.dark-mode .toggle-moon {
+  color: #fff9c4;
+  opacity: 1;
+  filter: drop-shadow(0 0 6px rgba(255, 249, 196, 0.8));
+}
+
+/* الزر المتحرك */
+.toggle-thumb {
+  position: absolute;
+  left: 4px;
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #ff9800, #ffb74d);
+  border-radius: 50%;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  box-shadow: 0 2px 8px rgba(255, 152, 0, 0.4);
+  z-index: 2;
+}
+
+body.dark-mode .toggle-thumb {
+  left: calc(100% - 32px);
+  background: linear-gradient(135deg, #fff9c4, #ffecb3);
+  box-shadow: 0 2px 10px rgba(255, 249, 196, 0.6);
+}
+
+/* تأثير الضغط */
+.theme-toggle:active .toggle-thumb {
+  transform: scale(0.9);
+}
