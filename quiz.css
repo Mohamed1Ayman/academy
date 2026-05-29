@@ -1,101 +1,301 @@
-/* ========== QUIZ SECTION ========== */
+/* ========== QUIZ SECTION - النسخة المتطورة ========== */
 
-.level-selector {
+/* ===== قائمة أنواع المسابقات (كروت) ===== */
+.quiz-categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.quiz-category-card {
   background: var(--card-bg);
-  border-radius: 30px;
+  border-radius: 24px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--border-color);
+  position: relative;
+}
+
+.quiz-category-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.25);
+  border-color: #2e7d32;
+}
+
+.quiz-card-icon {
+  background: linear-gradient(135deg, #2e7d32, #1b5e20);
+  padding: 2rem;
+  text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.quiz-card-icon::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  transform: rotate(45deg);
+}
+
+.quiz-card-icon i {
+  font-size: 3.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.quiz-card-content {
+  padding: 1.5rem;
+}
+
+.quiz-card-content h3 {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-primary);
+  font-size: 1.3rem;
+}
+
+.quiz-card-content p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.quiz-card-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.quiz-difficulty {
+  padding: 0.25rem 1rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.difficulty-easy {
+  background: linear-gradient(135deg, #4caf50, #45a049);
+  color: white;
+}
+
+.difficulty-medium {
+  background: linear-gradient(135deg, #ff9800, #f57c00);
+  color: white;
+}
+
+.difficulty-hard {
+  background: linear-gradient(135deg, #f44336, #d32f2f);
+  color: white;
+}
+
+.quiz-questions-count {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* ===== اختيار المستوى (النسخة الحديثة) ===== */
+.level-selector {
+  background: linear-gradient(135deg, var(--card-bg), var(--bg-secondary));
+  border-radius: 32px;
   padding: 2rem;
   text-align: center;
   margin-bottom: 2rem;
   box-shadow: var(--shadow);
   border: 1px solid var(--border-color);
+  transition: all 0.3s;
 }
 
 .level-selector h3 {
-  font-size: 1.5rem;
-  padding-bottom: 2rem;
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
   color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.level-selector h3 i {
+  color: #ff9800;
+  font-size: 1.8rem;
+}
+
+.level-selector p {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
 }
 
 .level-buttons {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 1.2rem;
   flex-wrap: wrap;
   margin: 1.5rem 0;
 }
 
 .level-btn {
-  padding: 1rem 2rem;
+  padding: 0.9rem 2.2rem;
   font-size: 1.1rem;
   border: none;
-  border-radius: 50px;
+  border-radius: 60px;
   cursor: pointer;
   font-weight: bold;
-  transition: all 0.3s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.level-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.level-btn:active::before {
+  width: 300px;
+  height: 300px;
 }
 
 .level-btn.easy {
-  background: #4caf50;
+  background: linear-gradient(135deg, #4caf50, #388e3c);
   color: white;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
 }
 
 .level-btn.medium {
-  background: #ff9800;
+  background: linear-gradient(135deg, #ff9800, #f57c00);
   color: white;
+  box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
 }
 
 .level-btn.hard {
-  background: #f44336;
+  background: linear-gradient(135deg, #f44336, #d32f2f);
   color: white;
+  box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
 }
 
 .level-btn.active {
-  transform: scale(1.05);
-  box-shadow: 0 0 0 3px var(--text-primary);
+  transform: scale(1.08);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.level-btn.active::after {
+  content: '✓';
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: white;
+  color: #2e7d32;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .level-btn:hover {
-  transform: scale(1.05);
+  transform: translateY(-3px) scale(1.02);
 }
 
 .start-quiz-btn {
-  background: #2e7d32;
+  background: linear-gradient(135deg, #2e7d32, #1b5e20);
   color: white;
-  padding: 1rem 2.5rem;
+  padding: 1rem 2.8rem;
   font-size: 1.2rem;
   border: none;
-  border-radius: 50px;
+  border-radius: 60px;
   cursor: pointer;
   font-weight: bold;
   margin-top: 1rem;
   transition: all 0.3s;
   font-family: "Tajawal", sans-serif;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
 }
 
 .start-quiz-btn:hover {
-  background: #1b5e20;
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(46, 125, 50, 0.4);
+}
+
+.start-quiz-btn:active {
+  transform: translateY(0);
 }
 
 /* ===== حاوية المسابقة ===== */
 .quiz-container {
   background: var(--card-bg);
-  border-radius: 30px;
+  border-radius: 32px;
   padding: 2rem;
   box-shadow: var(--shadow);
   border: 1px solid var(--border-color);
   display: none;
+  animation: quizFadeIn 0.4s ease;
+}
+
+@keyframes quizFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .quiz-container.active {
   display: block;
 }
 
-.quiz-header h3 {
+.quiz-header {
   text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.quiz-header h3 {
   color: #2e7d32;
-  font-size: 1.3rem;
-  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.quiz-level-badge {
+  background: #ff9800;
+  color: white;
+  padding: 0.3rem 1rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
 }
 
 /* ===== شريط التقدم ===== */
@@ -106,21 +306,45 @@
   border-radius: 10px;
   overflow: hidden;
   margin: 1rem 0;
+  position: relative;
 }
 
 .progress-fill {
   height: 100%;
-  background: #2e7d32;
-  transition: width 0.3s;
+  background: linear-gradient(90deg, #2e7d32, #4caf50);
+  transition: width 0.4s ease;
   border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
 /* ===== السؤال والخيارات ===== */
 .question-text {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   margin: 1.5rem 0;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-primary);
+  line-height: 1.6;
+  text-align: center;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border-radius: 20px;
 }
 
 .options {
@@ -132,29 +356,77 @@
 
 .option {
   background: var(--bg-primary);
-  padding: 1rem;
-  border-radius: 15px;
+  padding: 1rem 1.2rem;
+  border-radius: 16px;
   cursor: pointer;
-  transition: all 0.3s;
-  border: 1px solid var(--border-color);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid var(--border-color);
   color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.option::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border-color);
+  border-radius: 50%;
+  transition: all 0.3s;
+}
+
+.option:hover::before {
+  border-color: #2e7d32;
+  transform: scale(1.1);
 }
 
 .option:hover {
-  transform: scale(1.02);
+  transform: translateX(-5px);
   border-color: #2e7d32;
+  background: rgba(46, 125, 50, 0.05);
+}
+
+.option.selected {
+  background: rgba(46, 125, 50, 0.1);
+  border-color: #2e7d32;
+}
+
+.option.selected::before {
+  background: #2e7d32;
+  border-color: #2e7d32;
+  box-shadow: inset 0 0 0 3px white;
 }
 
 .option.correct-highlight {
-  background: #4caf50 !important;
+  background: linear-gradient(135deg, #4caf50, #45a049);
   color: white;
   border-color: #2e7d32;
+  animation: correctPulse 0.5s ease;
 }
 
 .option.wrong-highlight {
-  background: #f44336 !important;
+  background: linear-gradient(135deg, #f44336, #d32f2f);
   color: white;
-  border-color: #d32f2f;
+  border-color: #b71c1c;
+  animation: wrongShake 0.5s ease;
+}
+
+.option.correct-highlight::before,
+.option.wrong-highlight::before {
+  background: white;
+  border-color: white;
+}
+
+@keyframes correctPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+@keyframes wrongShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
 }
 
 /* ===== Footer ===== */
@@ -162,30 +434,42 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
 }
 
 #quizCounter {
   color: var(--text-secondary);
   font-size: 0.9rem;
+  background: var(--bg-secondary);
+  padding: 0.4rem 1rem;
+  border-radius: 50px;
 }
 
 .btn {
-  background: #2e7d32;
+  background: linear-gradient(135deg, #2e7d32, #1b5e20);
   color: white;
   border: none;
-  padding: 0.8rem 1.8rem;
-  border-radius: 50px;
+  padding: 0.8rem 2rem;
+  border-radius: 60px;
   cursor: pointer;
   font-weight: bold;
   font-size: 1rem;
   transition: all 0.3s;
   font-family: "Tajawal", sans-serif;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.btn:hover {
-  background: #1b5e20;
-  transform: scale(1.05);
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .btn:disabled {
@@ -195,11 +479,55 @@
 
 /* ===== النتيجة ===== */
 .result {
-  margin-top: 1rem;
-  padding: 1rem;
-  border-radius: 15px;
+  margin-top: 2rem;
+  padding: 2rem;
+  border-radius: 24px;
   text-align: center;
   font-weight: bold;
+  background: linear-gradient(135deg, var(--bg-secondary), var(--card-bg));
+  animation: resultPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes resultPop {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.result h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.result-score {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #2e7d32;
+  margin: 1rem 0;
+}
+
+.result-stars {
+  font-size: 2rem;
+  color: #ffd700;
+  margin: 1rem 0;
+  letter-spacing: 5px;
+}
+
+.result-message {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.result-details {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
 }
 
 /* ===== أزرار اختيار نوع المسابقة ===== */
@@ -213,11 +541,11 @@
 }
 
 .category-select-btn {
-  padding: 0.8rem 1.5rem;
+  padding: 0.8rem 1.8rem;
   border: 2px solid #2e7d32;
   background: transparent;
   color: #2e7d32;
-  border-radius: 50px;
+  border-radius: 60px;
   cursor: pointer;
   font-weight: bold;
   font-family: "Tajawal", sans-serif;
@@ -228,6 +556,13 @@
 .category-select-btn:hover {
   background: #2e7d32;
   color: white;
+  transform: translateY(-2px);
+}
+
+.category-select-btn.active {
+  background: #2e7d32;
+  color: white;
+  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
 }
 
 /* ===== محدد العملية الحسابية ===== */
@@ -240,16 +575,16 @@
   flex-wrap: wrap;
   padding: 1rem;
   background: var(--bg-primary);
-  border-radius: 15px;
+  border-radius: 20px;
   border: 1px solid var(--border-color);
 }
 
 .operation-select-btn {
-  padding: 0.7rem 1.2rem;
+  padding: 0.7rem 1.5rem;
   border: 2px solid #2e7d32;
   background: transparent;
   color: #2e7d32;
-  border-radius: 50px;
+  border-radius: 60px;
   cursor: pointer;
   font-weight: bold;
   font-family: "Tajawal", sans-serif;
@@ -262,13 +597,180 @@
   transform: translateY(-2px);
 }
 
-/* تأثير التمييز عند التوجيه */
+.operation-select-btn.active {
+  background: #2e7d32;
+  color: white;
+  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+}
+
+/* ===== زر الرجوع لقائمة المسابقات ===== */
+.back-to-quizzes-btn {
+  background: transparent;
+  border: 2px solid #2e7d32;
+  color: #2e7d32;
+  padding: 0.6rem 1.5rem;
+  border-radius: 60px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.back-to-quizzes-btn:hover {
+  background: #2e7d32;
+  color: white;
+  transform: translateX(-5px);
+}
+
+/* ===== زر إعادة المحاولة ===== */
+.retry-quiz-btn {
+  background: linear-gradient(135deg, #ff9800, #f57c00);
+  color: white;
+  margin-right: 0.5rem;
+}
+
+.retry-quiz-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+}
+
+/* ===== تأثير التمييز عند التوجيه ===== */
 #quiz.highlight-section {
   animation: highlightPulse 0.6s ease;
 }
 
 @keyframes highlightPulse {
   0% { box-shadow: 0 0 0 0 rgba(46, 125, 50, 0.5); }
-  50% { box-shadow: 0 0 0 15px rgba(46, 125, 50, 0.1); }
+  50% { box-shadow: 0 0 0 20px rgba(46, 125, 50, 0.1); }
   100% { box-shadow: 0 0 0 0 rgba(46, 125, 50, 0); }
+}
+
+/* ===== الوضع الليلي للتعديلات الجديدة ===== */
+body.dark-mode .quiz-category-card {
+  background: var(--card-bg);
+}
+
+body.dark-mode .option.selected {
+  background: rgba(76, 175, 80, 0.15);
+}
+
+body.dark-mode .category-select-btn,
+body.dark-mode .operation-select-btn {
+  border-color: #4caf50;
+  color: #81c784;
+}
+
+body.dark-mode .category-select-btn.active,
+body.dark-mode .operation-select-btn.active {
+  background: #4caf50;
+  color: #1a1a2e;
+}
+
+body.dark-mode .back-to-quizzes-btn {
+  border-color: #4caf50;
+  color: #81c784;
+}
+
+body.dark-mode .back-to-quizzes-btn:hover {
+  background: #4caf50;
+  color: #1a1a2e;
+}
+
+
+/* ===== زر الرجوع في اختيار المستوى ===== */
+.back-to-quizzes-level-btn {
+  background: transparent;
+  border: 2px solid #2e7d32;
+  color: #2e7d32;
+  padding: 0.5rem 1.2rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: bold;
+  font-family: "Tajawal", sans-serif;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.back-to-quizzes-level-btn:hover {
+  background: #2e7d32;
+  color: white;
+  transform: translateX(-5px);
+}
+
+/* تنسيق عنوان المسابقة المختارة */
+#selectedQuizTitle {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+#selectedQuizTitle i {
+  color: #ffd700;
+  margin-left: 0.5rem;
+}
+
+#selectedQuizTitle small {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  display: block;
+  margin-top: 0.3rem;
+}
+
+/* ===== استجابة للجوال ===== */
+@media (max-width: 768px) {
+  .quiz-categories-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .level-selector {
+    padding: 1.2rem;
+  }
+  
+  .level-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+  
+  .quiz-container {
+    padding: 1rem;
+  }
+  
+  .question-text {
+    font-size: 1rem;
+    padding: 0.8rem;
+  }
+  
+  .option {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  .quiz-footer {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .result-score {
+    font-size: 2rem;
+  }
+  
+  .btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* ===== شاشات أكبر ===== */
+@media (min-width: 1200px) {
+  .quiz-categories-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }

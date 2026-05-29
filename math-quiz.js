@@ -110,3 +110,32 @@ const mathLevels = {
   medium: { label: "⭐ متوسط", numbers: "1-50", color: "#FF9800" },
   hard: { label: "🔥 صعب", numbers: "1-100", color: "#f44336" }
 };
+
+// ==================== تصدير الدوال للاستخدام العام ====================
+window.generateMathQuestions = generateMathQuestions;
+window.mathOperations = mathOperations;
+window.mathLevels = mathLevels;
+
+// ==================== بيانات متوافقة مع نظام المسابقات ====================
+// نظام المسابقات الجديد بيتوقع بيانات بهذا الشكل
+const mathQuestionsByLevel = {
+  easy: [],
+  medium: [],
+  hard: []
+};
+
+// دالة للحصول على أسئلة الحساب حسب المستوى
+function getMathQuestionsByLevel(level, operation = 'addition') {
+  return generateMathQuestions(operation, level);
+}
+
+// إضافة دالة مساعدة للحصول على أسئلة عشوائية
+function getRandomMathQuestions(count = 10, level = 'medium', operation = 'addition') {
+  const questions = generateMathQuestions(operation, level);
+  return questions.slice(0, count);
+}
+
+// تصدير الدوال الإضافية
+window.getMathQuestionsByLevel = getMathQuestionsByLevel;
+window.getRandomMathQuestions = getRandomMathQuestions;
+window.mathQuestionsByLevel = mathQuestionsByLevel;

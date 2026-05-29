@@ -1,9 +1,14 @@
-// ==================== نظام المسابقات الموحد ====================
+// ==================== نظام المسابقات الموحد والمتطور ====================
+// أكاديمية اتكلم عربي
 
+// ==================== البيانات ====================
 const allQuestions = {
   quran: {
     label: "القرآن الكريم",
     icon: "fa-quran",
+    description: "اختبر معلوماتك في علوم القرآن الكريم",
+    difficulty: "medium",
+    color: "#2e7d32",
     data: {
       easy: [
         { text: "ما هي أول سورة في القرآن؟", options: ["الفاتحة", "البقرة", "الإخلاص", "الناس"], correct: 0 },
@@ -46,96 +51,128 @@ const allQuestions = {
   aqeeda: {
     label: "العقيدة",
     icon: "fa-mosque",
+    description: "اختبر معلوماتك في أصول العقيدة الإسلامية",
+    difficulty: "medium",
+    color: "#9c27b0",
     data: window.aqeedaQuestionsByLevel || { easy: [], medium: [], hard: [] },
   },
   tafseer: {
     label: "التفسير",
     icon: "fa-book-open",
+    description: "اختبر معلوماتك في تفسير القرآن الكريم",
+    difficulty: "hard",
+    color: "#ff9800",
     data: window.tafseerQuestionsByLevel || { easy: [], medium: [], hard: [] },
   },
   math: {
     label: "الحساب",
     icon: "fa-calculator",
+    description: "اختبر قدراتك في الحساب والرياضيات",
+    difficulty: "easy",
+    color: "#2196f3",
     data: { easy: [], medium: [], hard: [] },
     isDynamic: true,
   },
   arabic: {
     label: "النحو العربي",
     icon: "fa-language",
+    description: "اختبر مهاراتك في قواعد اللغة العربية",
+    difficulty: "medium",
+    color: "#00bcd4",
     data: window.arabicQuestionsByLevel || { easy: [], medium: [], hard: [] },
   },
- 
   hadith: {
-    label: "الحديث",
+    label: "الحديث النبوي",
     icon: "fa-scroll",
+    description: "اختبر معلوماتك في علم الحديث النبوي",
+    difficulty: "medium",
+    color: "#607d8b",
     data: window.hadithQuestionsByLevel || { easy: [], medium: [], hard: [] },
   },
 };
 
-let currentCategory = "quran";
-let currentLevel = "easy";
-let currentQuestions = [];
-let currentIndex = 0;
-let score = 0;
-let userAnswers = [];
-let answerLocked = false;
-let currentMathOperation = "addition";
+// ==================== حالة المسابقة ====================
+let quizState = {
+  currentCategory: "quran",
+  currentLevel: "medium",
+  currentQuestions: [],
+  currentIndex: 0,
+  score: 0,
+  userAnswers: [],
+  answerLocked: false,
+  currentMathOperation: "addition",
+  quizStarted: false
+};
 
 // ==================== عناصر DOM ====================
+const quizzesCategoriesGrid = document.getElementById("quizzesCategoriesGrid");
 const levelSelector = document.getElementById("levelSelector");
 const quizContainer = document.getElementById("quizContainer");
 const quizTitle = document.getElementById("quizTitle");
+const quizLevelBadge = document.getElementById("quizLevelBadge");
 const quizQuestion = document.getElementById("quizQuestion");
 const quizOptions = document.getElementById("quizOptions");
 const quizCounter = document.getElementById("quizCounter");
 const quizProgress = document.getElementById("quizProgress");
+const quizPrev = document.getElementById("quizPrev");
 const quizNext = document.getElementById("quizNext");
 const quizResult = document.getElementById("quizResult");
 const quizReset = document.getElementById("quizReset");
-const backToLevels = document.getElementById("backToLevels");
+const backToQuizzesBtn = document.getElementById("backToQuizzesBtn");
 const startQuizBtn = document.getElementById("startQuizBtn");
 
-// ==================== إضافة أزرار اختيار نوع المسابقة ====================
-function addCategorySelector() {
-  const old = document.querySelector(".quiz-category-selector");
-  if (old) old.remove();
-
-  const div = document.createElement("div");
-  div.className = "quiz-category-selector";
-  div.style.cssText = "text-align:center;margin-bottom:1.5rem;display:flex;justify-content:center;gap:0.6rem;flex-wrap:wrap;";
-
-  Object.keys(allQuestions).forEach((key) => {
-    const btn = document.createElement("button");
-    btn.className = "category-select-btn";
-    btn.style.cssText = `padding:0.6rem 1.2rem;border:2px solid #2e7d32;background:${key === currentCategory ? "#2e7d32" : "transparent"};color:${key === currentCategory ? "white" : "#2e7d32"};border-radius:50px;cursor:pointer;font-weight:bold;font-family:'Tajawal',sans-serif;font-size:0.9rem;transition:all 0.3s;`;
-    btn.innerHTML = `<i class="fas ${allQuestions[key].icon}"></i> ${allQuestions[key].label}`;
-
-    btn.addEventListener("click", () => {
-      currentCategory = key;
-      document.querySelectorAll(".category-select-btn").forEach((b, i) => {
-        const ck = Object.keys(allQuestions)[i];
-        b.style.background = ck === key ? "#2e7d32" : "transparent";
-        b.style.color = ck === key ? "white" : "#2e7d32";
-      });
-      const op = document.querySelector(".math-operation-selector");
-      if (key === "math") {
-        if (!op) addMathOperationSelector();
-        else op.style.display = "flex";
-      } else {
-        if (op) op.style.display = "none";
-      }
+// ==================== عرض بطاقات المسابقات ====================
+function displayQuizzesCategories() {
+  if (!quizzesCategoriesGrid) return;
+  
+  quizzesCategoriesGrid.innerHTML = "";
+  
+  Object.keys(allQuestions).forEach(key => {
+    const quiz = allQuestions[key];
+    const card = document.createElement("div");
+    card.className = "quiz-category-card";
+    card.setAttribute("data-category", key);
+    
+    card.innerHTML = `
+      <div class="quiz-card-icon" style="background: linear-gradient(135deg, ${quiz.color}, ${quiz.color}dd);">
+        <i class="fas ${quiz.icon}"></i>
+      </div>
+      <div class="quiz-card-content">
+        <h3>${quiz.label}</h3>
+        <p>${quiz.description}</p>
+        <div class="quiz-card-stats">
+          <span class="quiz-difficulty difficulty-${quiz.difficulty}">
+            ${quiz.difficulty === 'easy' ? 'سهل' : quiz.difficulty === 'medium' ? 'متوسط' : 'صعب'}
+          </span>
+          <span class="quiz-questions-count">
+            <i class="fas fa-question-circle"></i> 
+            ${getQuestionsCount(key)} سؤال
+          </span>
+        </div>
+      </div>
+    `;
+    
+    card.addEventListener("click", () => {
+      selectQuizCategory(key);
     });
-    div.appendChild(btn);
+    
+    quizzesCategoriesGrid.appendChild(card);
   });
+}
 
-  const lb = document.querySelector(".level-buttons");
-  if (lb) lb.parentNode.insertBefore(div, lb);
+// ==================== الحصول على عدد الأسئلة ====================
+function getQuestionsCount(categoryKey) {
+  const quiz = allQuestions[categoryKey];
+  if (quiz.isDynamic) return 10;
+  if (quiz.data.medium && quiz.data.medium.length > 0) return quiz.data.medium.length;
+  if (quiz.data.easy && quiz.data.easy.length > 0) return quiz.data.easy.length;
+  return 10;
 }
 
 // ==================== محدد العملية الحسابية ====================
 function addMathOperationSelector() {
   const old = document.querySelector(".math-operation-selector");
-  if (old) old.remove();
+  if (old && old.parentNode) old.remove();
 
   const div = document.createElement("div");
   div.className = "math-operation-selector";
@@ -150,201 +187,451 @@ function addMathOperationSelector() {
 
   Object.keys(ops).forEach((key) => {
     const btn = document.createElement("button");
-    btn.className = "operation-select-btn";
-    btn.style.cssText = `padding:0.5rem 1rem;border:2px solid #2e7d32;background:${key === currentMathOperation ? "#2e7d32" : "transparent"};color:${key === currentMathOperation ? "white" : "#2e7d32"};border-radius:50px;cursor:pointer;font-weight:bold;font-family:'Tajawal',sans-serif;font-size:0.85rem;`;
+    btn.className = `operation-select-btn ${key === quizState.currentMathOperation ? 'active' : ''}`;
     btn.innerHTML = `<i class="fas ${ops[key].icon}"></i> ${ops[key].label}`;
 
     btn.addEventListener("click", () => {
-      currentMathOperation = key;
-      document.querySelectorAll(".operation-select-btn").forEach((b, i) => {
-        const ok = Object.keys(ops)[i];
-        b.style.background = ok === key ? "#2e7d32" : "transparent";
-        b.style.color = ok === key ? "white" : "#2e7d32";
-      });
+      quizState.currentMathOperation = key;
+      document.querySelectorAll(".operation-select-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
     });
+    
     div.appendChild(btn);
   });
 
-  const cs = document.querySelector(".quiz-category-selector");
-  if (cs) cs.insertAdjacentElement("afterend", div);
+  if (levelSelector) {
+    levelSelector.appendChild(div);
+  }
 }
 
 // ==================== توليد أسئلة الحساب ====================
-function generateMathQuestions(op, lvl) {
-  const qs = [];
-  for (let i = 0; i < 10; i++) {
-    let n1, n2, ans, txt;
-    if (lvl === "easy") { n1 = Math.floor(Math.random() * 10) + 1; n2 = Math.floor(Math.random() * 10) + 1; }
-    else if (lvl === "medium") { n1 = Math.floor(Math.random() * 50) + 1; n2 = Math.floor(Math.random() * 25) + 1; }
-    else { n1 = Math.floor(Math.random() * 100) + 1; n2 = Math.floor(Math.random() * 50) + 1; }
+function generateMathQuestions(op, level) {
+  const questions = [];
+  const count = 10;
+  
+  for (let i = 0; i < count; i++) {
+    let n1, n2, answer, text;
+    
+    if (level === "easy") { 
+      n1 = Math.floor(Math.random() * 10) + 1; 
+      n2 = Math.floor(Math.random() * 10) + 1; 
+    } else if (level === "medium") { 
+      n1 = Math.floor(Math.random() * 50) + 1; 
+      n2 = Math.floor(Math.random() * 25) + 1; 
+    } else { 
+      n1 = Math.floor(Math.random() * 100) + 1; 
+      n2 = Math.floor(Math.random() * 50) + 1; 
+    }
 
-    if (op === "addition") { ans = n1 + n2; txt = `${n1} + ${n2} = ؟`; }
-    else if (op === "subtraction") { if (n1 < n2) [n1, n2] = [n2, n1]; ans = n1 - n2; txt = `${n1} - ${n2} = ؟`; }
-    else if (op === "multiplication") { ans = n1 * n2; txt = `${n1} × ${n2} = ؟`; }
-    else { ans = n2; n1 = n1 * n2; txt = `${n1} ÷ ${n2} = ؟`; }
+    switch(op) {
+      case "addition":
+        answer = n1 + n2;
+        text = `${n1} + ${n2} = ؟`;
+        break;
+      case "subtraction":
+        if (n1 < n2) [n1, n2] = [n2, n1];
+        answer = n1 - n2;
+        text = `${n1} - ${n2} = ؟`;
+        break;
+      case "multiplication":
+        answer = n1 * n2;
+        text = `${n1} × ${n2} = ؟`;
+        break;
+      case "division":
+        answer = n2;
+        n1 = n1 * n2;
+        text = `${n1} ÷ ${n2} = ؟`;
+        break;
+      default:
+        answer = n1 + n2;
+        text = `${n1} + ${n2} = ؟`;
+    }
 
-    const opts = new Set();
-    while (opts.size < 3) { const v = Math.floor(Math.random() * 20) - 10; let w = ans + (v === 0 ? 5 : v); if (w !== ans && w > 0) opts.add(w); }
-    const all = [...opts, ans];
-    all.sort(() => Math.random() - 0.5);
-
-    qs.push({ text: txt, options: all.map((o) => o.toString()), correct: all.indexOf(ans) });
+    const options = new Set();
+    options.add(answer);
+    while (options.size < 4) {
+      let offset = Math.floor(Math.random() * 20) - 10;
+      let wrong = answer + (offset === 0 ? 5 : offset);
+      if (wrong > 0 && wrong !== answer) options.add(wrong);
+    }
+    
+    const optionsArray = Array.from(options);
+    optionsArray.sort(() => Math.random() - 0.5);
+    
+    questions.push({
+      text: text,
+      options: optionsArray.map(o => o.toString()),
+      correct: optionsArray.indexOf(answer)
+    });
   }
-  return qs;
+  
+  return questions;
 }
 
-// ==================== اختيار المستوى ====================
-let selectedLevel = "easy";
-document.querySelectorAll(".level-btn").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".level-btn").forEach((b) => b.classList.remove("active"));
-    btn.classList.add("active");
-    selectedLevel = btn.dataset.level;
+// ==================== اختيار فئة المسابقة ====================
+function selectQuizCategory(categoryKey) {
+  const quiz = allQuestions[categoryKey];
+  if (!quiz) return;
+  
+  quizState.currentCategory = categoryKey;
+  quizState.currentLevel = "medium";
+  
+  // تحديث المؤشرات في أزرار المستوى
+  document.querySelectorAll(".level-btn").forEach(btn => {
+    btn.classList.remove("active");
+    if (btn.dataset.level === "medium") btn.classList.add("active");
   });
-});
+  
+  // إخفاء شبكة المسابقات
+  if (quizzesCategoriesGrid) quizzesCategoriesGrid.style.display = "none";
+  
+  // إظهار اختيار المستوى
+  if (levelSelector) {
+    levelSelector.style.display = "block";
+    
+    // تحديث عنوان المسابقة المختارة
+    const titleElem = document.getElementById("selectedQuizTitle");
+    if (titleElem) {
+      titleElem.innerHTML = `
+        <i class="fas ${quiz.icon}"></i> ${quiz.label}
+        <small>اختر مستوى الصعوبة المناسب لك</small>
+      `;
+    }
+  }
+  
+  // إخفاء حاوية المسابقة إذا كانت ظاهرة
+  if (quizContainer) quizContainer.style.display = "none";
+  
+  // إضافة محدد العملية الحسابية إذا كانت المسابقة حساب
+  if (categoryKey === "math") {
+    addMathOperationSelector();
+  } else {
+    const opSelector = document.querySelector(".math-operation-selector");
+    if (opSelector) opSelector.remove();
+  }
+}
 
 // ==================== بدء المسابقة ====================
-startQuizBtn.addEventListener("click", () => {
-  currentLevel = selectedLevel;
-
-  if (currentCategory === "math") {
-    currentQuestions = generateMathQuestions(currentMathOperation, currentLevel);
+function startQuiz() {
+  const activeLevel = document.querySelector(".level-btn.active");
+  quizState.currentLevel = activeLevel ? activeLevel.dataset.level : "medium";
+  
+  const category = allQuestions[quizState.currentCategory];
+  
+  if (quizState.currentCategory === "math") {
+    quizState.currentQuestions = generateMathQuestions(quizState.currentMathOperation, quizState.currentLevel);
   } else {
-    const categoryData = allQuestions[currentCategory]?.data;
-    if (!categoryData || !categoryData[currentLevel] || categoryData[currentLevel].length === 0) {
-      alert("لا توجد أسئلة متاحة لهذا القسم حالياً");
+    const questionsData = category.data[quizState.currentLevel];
+    if (!questionsData || questionsData.length === 0) {
+      alert(`لا توجد أسئلة متاحة لمستوى ${quizState.currentLevel} في قسم ${category.label}`);
       return;
     }
-    currentQuestions = [...categoryData[currentLevel]];
+    quizState.currentQuestions = [...questionsData];
   }
-
-  if (!currentQuestions || currentQuestions.length === 0) {
-    alert("لا توجد أسئلة");
+  
+  if (quizState.currentQuestions.length === 0) {
+    alert("لا توجد أسئلة متاحة");
     return;
   }
-
-  currentIndex = 0;
-  score = 0;
-  userAnswers = new Array(currentQuestions.length).fill(null);
-  answerLocked = false;
-
-  levelSelector.style.display = "none";
-  quizContainer.classList.add("active");
-
-  const lbl = allQuestions[currentCategory].label;
-  if (currentLevel === "easy") quizTitle.textContent = "🌟 " + lbl + " - مستوى سهل";
-  else if (currentLevel === "medium") quizTitle.textContent = "⭐ " + lbl + " - مستوى متوسط";
-  else quizTitle.textContent = "🔥 " + lbl + " - مستوى صعب";
-
+  
+  quizState.currentIndex = 0;
+  quizState.score = 0;
+  quizState.userAnswers = new Array(quizState.currentQuestions.length).fill(null);
+  quizState.answerLocked = false;
+  quizState.quizStarted = true;
+  
+  if (levelSelector) levelSelector.style.display = "none";
+  if (quizContainer) {
+    quizContainer.style.display = "block";
+    quizContainer.classList.add("active");
+  }
+  
+  const levelNames = { easy: "سهل", medium: "متوسط", hard: "صعب" };
+  const levelIcon = { easy: "🌟", medium: "⭐", hard: "🔥" };
+  if (quizTitle) quizTitle.innerHTML = `<i class="fas ${category.icon}"></i> ${category.label}`;
+  if (quizLevelBadge) {
+    quizLevelBadge.style.display = "inline-block";
+    quizLevelBadge.innerHTML = `${levelIcon[quizState.currentLevel]} مستوى ${levelNames[quizState.currentLevel]}`;
+  }
+  
+  if (quizPrev) quizPrev.style.display = "inline-flex";
+  
   loadQuestion();
-});
+}
 
 // ==================== تحميل السؤال ====================
 function loadQuestion() {
-  if (currentIndex >= currentQuestions.length) { showResult(); return; }
-
-  var q = currentQuestions[currentIndex];
-  if (!q) { showResult(); return; }
-
-  answerLocked = false;
-  quizQuestion.innerHTML = "<strong>" + q.text + "</strong>";
-  quizOptions.innerHTML = "";
-
-  q.options.forEach((opt, idx) => {
-    var d = document.createElement("div");
-    d.className = "option";
-    d.innerHTML = String.fromCharCode(65 + idx) + ". " + opt;
-    d.onclick = function () { selectAnswer(idx); };
-    quizOptions.appendChild(d);
-  });
-
+  if (quizState.currentIndex >= quizState.currentQuestions.length) {
+    showResult();
+    return;
+  }
+  
+  const q = quizState.currentQuestions[quizState.currentIndex];
+  if (!q) {
+    showResult();
+    return;
+  }
+  
+  quizState.answerLocked = false;
+  
+  if (quizQuestion) quizQuestion.innerHTML = `<i class="fas fa-question-circle" style="color: #2e7d32;"></i> ${q.text}`;
+  
+  if (quizOptions) {
+    quizOptions.innerHTML = "";
+    const letters = ["أ", "ب", "ج", "د"];
+    
+    q.options.forEach((opt, idx) => {
+      const isSelected = quizState.userAnswers[quizState.currentIndex] === idx;
+      const optionDiv = document.createElement("div");
+      optionDiv.className = `option ${isSelected ? 'selected' : ''}`;
+      optionDiv.innerHTML = `<span style="font-weight: bold; margin-left: 10px;">${letters[idx]}.</span> ${opt}`;
+      optionDiv.onclick = () => selectAnswer(idx);
+      quizOptions.appendChild(optionDiv);
+    });
+  }
+  
   updateProgress();
-  quizNext.disabled = false;
+  
+  if (quizPrev) quizPrev.disabled = quizState.currentIndex === 0;
+  if (quizNext) {
+    quizNext.innerHTML = quizState.currentIndex === quizState.currentQuestions.length - 1 
+      ? '<i class="fas fa-check"></i> إنهاء' 
+      : 'التالي <i class="fas fa-arrow-left"></i>';
+  }
 }
 
 // ==================== اختيار الإجابة ====================
-function selectAnswer(s) {
-  if (answerLocked) return;
-
-  var q = currentQuestions[currentIndex];
-  if (!q) return;
-
-  var isCorrect = s === q.correct;
-  if (isCorrect) score++;
-
-  userAnswers[currentIndex] = s;
-  answerLocked = true;
-
-  document.querySelectorAll("#quizOptions .option").forEach((o, i) => {
-    o.style.pointerEvents = "none";
-    if (i === q.correct) o.classList.add("correct-highlight");
-    if (i === s && i !== q.correct) o.classList.add("wrong-highlight");
+function selectAnswer(selectedIndex) {
+  if (quizState.answerLocked) return;
+  
+  const q = quizState.currentQuestions[quizState.currentIndex];
+  const isCorrect = selectedIndex === q.correct;
+  
+  if (isCorrect) quizState.score++;
+  quizState.userAnswers[quizState.currentIndex] = selectedIndex;
+  quizState.answerLocked = true;
+  
+  const options = document.querySelectorAll("#quizOptions .option");
+  options.forEach((opt, idx) => {
+    opt.style.pointerEvents = "none";
+    if (idx === q.correct) {
+      opt.classList.add("correct-highlight");
+    }
+    if (idx === selectedIndex && idx !== q.correct) {
+      opt.classList.add("wrong-highlight");
+    }
   });
-
-  quizQuestion.innerHTML = isCorrect
-    ? "<strong>" + q.text + "</strong><br><span style=\"color:#4CAF50;\">✅ إجابة صحيحة!</span>"
-    : "<strong>" + q.text + "</strong><br><span style=\"color:#f44336;\">❌ خطأ! الصحيح: " + q.options[q.correct] + "</span>";
+  
+  const feedback = isCorrect 
+    ? '<span style="color: #4caf50;"><i class="fas fa-check-circle"></i> إجابة صحيحة! ✓</span>'
+    : `<span style="color: #f44336;"><i class="fas fa-times-circle"></i> خطأ! الإجابة الصحيحة: ${q.options[q.correct]}</span>`;
+  
+  if (quizQuestion) {
+    quizQuestion.innerHTML = `<i class="fas fa-question-circle" style="color: #2e7d32;"></i> ${q.text}<br><br><div style="font-size: 0.9rem; margin-top: 0.5rem;">${feedback}</div>`;
+  }
 }
 
 // ==================== السؤال التالي ====================
 function nextQuestion() {
-  if (!answerLocked && userAnswers[currentIndex] === null) return;
-  currentIndex++;
-  if (currentIndex < currentQuestions.length) loadQuestion();
-  else showResult();
+  if (!quizState.answerLocked && quizState.userAnswers[quizState.currentIndex] === null) {
+    alert("الرجاء اختيار إجابة قبل المتابعة");
+    return;
+  }
+  
+  if (quizState.currentIndex < quizState.currentQuestions.length - 1) {
+    quizState.currentIndex++;
+    loadQuestion();
+  } else {
+    showResult();
+  }
+}
+
+// ==================== السؤال السابق ====================
+function previousQuestion() {
+  if (quizState.currentIndex > 0) {
+    quizState.currentIndex--;
+    loadQuestion();
+  }
 }
 
 // ==================== عرض النتيجة ====================
 function showResult() {
-  var w = currentQuestions.length - score;
-  var p = Math.round((score / currentQuestions.length) * 100);
-  var m = "";
-
-  if (currentCategory === "math") {
-    if (p >= 90) m = "🏆 عبقري!";
-    else if (p >= 70) m = "👍 ممتاز!";
-    else if (p >= 50) m = "📖 جيد!";
-    else m = "💪 استمر!";
-  } else if (currentCategory === "english") {
-    if (p >= 90) m = "🏆 Excellent! You're an English master!";
-    else if (p >= 70) m = "👍 Great job! Keep up the good work!";
-    else if (p >= 50) m = "📖 Good! Practice more!";
-    else m = "💪 Don't give up! Keep learning!";
+  const total = quizState.currentQuestions.length;
+  const percentage = Math.round((quizState.score / total) * 100);
+  
+  let message = "";
+  let stars = "";
+  
+  if (percentage >= 80) {
+    message = "ممتاز! 🎉 أداء رائع، استمر بهذا المستوى";
+    stars = "★★★★★";
+  } else if (percentage >= 60) {
+    message = "جيد جداً! 👍 يمكنك تحسين أدائك أكثر";
+    stars = "★★★★☆";
+  } else if (percentage >= 40) {
+    message = "جيد! 📚 حاول مراجعة المواد مرة أخرى";
+    stars = "★★★☆☆";
   } else {
-    if (p >= 80) m = "🏆 ممتاز!";
-    else if (p >= 60) m = "👍 جيد!";
-    else if (p >= 40) m = "📖 حاول مرة أخرى!";
-    else m = "💪 لا تيأس!";
+    message = "تحتاج إلى مزيد من المذاكرة 💪 لا تيأس، حاول مرة أخرى";
+    stars = "★★☆☆☆";
   }
-
-  quizResult.innerHTML = "<div style=\"background:#2E7D32;color:white;padding:1.5rem;border-radius:15px;\">✅ " + score + "/" + currentQuestions.length + "<br>📊 " + p + "%<br>" + m + "</div>";
-  quizNext.disabled = true;
-  document.getElementById("quizProgress").style.width = "100%";
+  
+  if (quizResult) {
+    quizResult.style.display = "block";
+    quizResult.innerHTML = `
+      <h2><i class="fas fa-trophy" style="color: #ffd700;"></i> نتيجة المسابقة</h2>
+      <div class="result-score">${quizState.score} / ${total}</div>
+      <div class="result-stars">${stars}</div>
+      <div class="result-message">${message}</div>
+      <div class="result-details">
+        <p>📊 نسبة الإجابات الصحيحة: ${percentage}%</p>
+        <p>📖 عدد الأسئلة: ${total}</p>
+        <p>🎯 مستوى الصعوبة: ${quizState.currentLevel === 'easy' ? 'سهل' : quizState.currentLevel === 'medium' ? 'متوسط' : 'صعب'}</p>
+      </div>
+    `;
+  }
+  
+  if (quizNext) quizNext.disabled = true;
+  if (quizPrev) quizPrev.disabled = true;
+  if (quizProgress) quizProgress.style.width = "100%";
 }
 
 // ==================== إعادة المسابقة ====================
 function resetQuiz() {
-  currentIndex = 0;
-  score = 0;
-  userAnswers = new Array(currentQuestions.length).fill(null);
-  answerLocked = false;
-  quizResult.innerHTML = "";
-  quizNext.disabled = false;
+  quizState.currentIndex = 0;
+  quizState.score = 0;
+  quizState.userAnswers = new Array(quizState.currentQuestions.length).fill(null);
+  quizState.answerLocked = false;
+  
+  if (quizResult) {
+    quizResult.style.display = "none";
+    quizResult.innerHTML = "";
+  }
+  
+  if (quizNext) quizNext.disabled = false;
+  if (quizPrev) quizPrev.disabled = false;
+  
   loadQuestion();
 }
 
-function backToSelection() {
-  levelSelector.style.display = "block";
-  quizContainer.classList.remove("active");
-  quizResult.innerHTML = "";
+// ==================== الرجوع لقائمة المسابقات من داخل المسابقة ====================
+function backToQuizzes() {
+  if (quizContainer) {
+    quizContainer.style.display = "none";
+    quizContainer.classList.remove("active");
+  }
+  
+  if (quizzesCategoriesGrid) quizzesCategoriesGrid.style.display = "grid";
+  if (levelSelector) levelSelector.style.display = "none";
+  
+  quizState.quizStarted = false;
+  quizState.currentQuestions = [];
+  quizState.currentIndex = 0;
+  quizState.score = 0;
+  quizState.userAnswers = [];
+  
+  if (quizResult) {
+    quizResult.style.display = "none";
+    quizResult.innerHTML = "";
+  }
+  
+  if (quizProgress) quizProgress.style.width = "0%";
+  
+  const opSelector = document.querySelector(".math-operation-selector");
+  if (opSelector) opSelector.remove();
 }
 
+// ==================== زر الرجوع من اختيار المستوى ====================
+function backToQuizzesFromLevel() {
+  // إخفاء اختيار المستوى
+  if (levelSelector) levelSelector.style.display = "none";
+  
+  // إظهار شبكة المسابقات
+  if (quizzesCategoriesGrid) quizzesCategoriesGrid.style.display = "grid";
+  
+  // إخفاء حاوية المسابقة إذا كانت ظاهرة
+  if (quizContainer) {
+    quizContainer.style.display = "none";
+    quizContainer.classList.remove("active");
+  }
+  
+  // إخفاء النتيجة إذا كانت ظاهرة
+  if (quizResult) {
+    quizResult.style.display = "none";
+    quizResult.innerHTML = "";
+  }
+  
+  // إعادة تعيين حالة المسابقة
+  quizState.quizStarted = false;
+  quizState.currentQuestions = [];
+  quizState.currentIndex = 0;
+  quizState.score = 0;
+  quizState.userAnswers = [];
+  
+  // إعادة تعيين شريط التقدم
+  if (quizProgress) quizProgress.style.width = "0%";
+  
+  // إزالة محدد العملية الحسابية
+  const opSelector = document.querySelector(".math-operation-selector");
+  if (opSelector) opSelector.remove();
+}
+
+// ==================== تحديث شريط التقدم ====================
 function updateProgress() {
-  quizProgress.style.width = ((currentIndex / currentQuestions.length) * 100) + "%";
-  quizCounter.innerHTML = "السؤال " + (currentIndex + 1) + " / " + currentQuestions.length;
+  const progress = ((quizState.currentIndex + 1) / quizState.currentQuestions.length) * 100;
+  if (quizProgress) quizProgress.style.width = `${progress}%`;
+  if (quizCounter) {
+    quizCounter.innerHTML = `<i class="fas fa-question-circle"></i> السؤال ${quizState.currentIndex + 1} / ${quizState.currentQuestions.length}`;
+  }
 }
 
-// ==================== مستمعي الأحداث ====================
-quizNext.addEventListener("click", nextQuestion);
-quizReset.addEventListener("click", resetQuiz);
-backToLevels.addEventListener("click", backToSelection);
+// ==================== ربط الأحداث ====================
+function bindEvents() {
+  // زر الرجوع من اختيار المستوى
+  const backFromLevelBtn = document.getElementById("backToQuizzesFromLevel");
+  if (backFromLevelBtn) {
+    backFromLevelBtn.addEventListener("click", backToQuizzesFromLevel);
+  }
+  
+  // زر الرجوع من داخل المسابقة
+  if (backToQuizzesBtn) {
+    backToQuizzesBtn.addEventListener("click", backToQuizzes);
+  }
+  
+  // أزرار المستوى
+  document.querySelectorAll(".level-btn").forEach(btn => {
+    btn.addEventListener("click", function() {
+      document.querySelectorAll(".level-btn").forEach(b => b.classList.remove("active"));
+      this.classList.add("active");
+      quizState.currentLevel = this.dataset.level;
+    });
+  });
+  
+  // زر بدء المسابقة
+  if (startQuizBtn) startQuizBtn.addEventListener("click", startQuiz);
+  
+  // أزرار التنقل
+  if (quizNext) quizNext.addEventListener("click", nextQuestion);
+  if (quizPrev) quizPrev.addEventListener("click", previousQuestion);
+  if (quizReset) quizReset.addEventListener("click", resetQuiz);
+}
+
+// ==================== تهيئة النظام ====================
+function initQuizSystem() {
+  displayQuizzesCategories();
+  bindEvents();
+  
+  if (levelSelector) levelSelector.style.display = "none";
+  if (quizContainer) quizContainer.style.display = "none";
+}
+
+// بدء النظام عند تحميل الصفحة
+document.addEventListener("DOMContentLoaded", initQuizSystem);
+
+// تصدير الدوال للاستخدام العام
+window.initQuizSystem = initQuizSystem;
+window.startQuiz = startQuiz;
+window.resetQuiz = resetQuiz;
+window.backToQuizzes = backToQuizzes;
+window.backToQuizzesFromLevel = backToQuizzesFromLevel;
+window.selectQuizCategory = selectQuizCategory;

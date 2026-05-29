@@ -1,4 +1,8 @@
 // =========================
+// أكاديمية اتكلم عربي - الملف الرئيسي
+// =========================
+
+// =========================
 // ELEMENTS
 // =========================
 const menuIcon = document.getElementById("menuIcon");
@@ -9,11 +13,12 @@ const body = document.body;
 
 // ==================== الوضع الليلي والنهاري ====================
 
-
 // تحميل الوضع المحفوظ
 if (localStorage.getItem("theme") === "dark") {
   body.classList.add("dark-mode");
   body.classList.remove("light-mode");
+} else {
+  body.classList.add("light-mode");
 }
 
 if (themeToggle) {
@@ -133,42 +138,94 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
+// =========================
+// تهيئة جميع الأنظمة عند تحميل الصفحة
+// =========================
 window.onload = function() {
-  addCategorySelector();
-  buildCategoryButtons();
-  displayAzkar("أذكار الصباح");
+  console.log("🚀 بدء تشغيل أكاديمية اتكلم عربي");
+  
+  // تهيئة نظام الأذكار (النظام المتطور)
+  if (typeof initAzkarSystem === 'function') {
+    console.log("✅ تهيئة نظام الأذكار");
+    initAzkarSystem();
+  } else {
+    console.warn("⚠️ initAzkarSystem غير موجود");
+    // محاولة استخدام النظام القديم كبديل
+    if (typeof displayAzkar === 'function') {
+      displayAzkar("أذكار الصباح");
+    }
+  }
+  
+  // تهيئة نظام المسابقات
+  if (typeof initQuizSystem === 'function') {
+    console.log("✅ تهيئة نظام المسابقات");
+    initQuizSystem();
+  } else {
+    console.warn("⚠️ initQuizSystem غير موجود");
+  }
+  
+  // تهيئة نظام التجويد
+  if (typeof buildTajweedCategories === 'function') {
+    console.log("✅ تهيئة نظام التجويد");
+    buildTajweedCategories();
+  } else if (typeof buildTajweedSelector === 'function') {
+    console.log("✅ تهيئة نظام التجويد (النسخة القديمة)");
+    buildTajweedSelector();
+  }
+  
+  // تهيئة نظام الحديث
+  if (typeof buildHadithSelector === 'function') {
+    console.log("✅ تهيئة نظام الحديث");
+    buildHadithSelector();
+  }
+  
+  // تهيئة نظام مواقيت الصلاة
+  if (typeof loadPrayerTimes === 'function') {
+    console.log("✅ تهيئة مواقيت الصلاة");
+    loadPrayerTimes();
+  }
+  
+  // تهيئة نظام القرآن
+  if (typeof initQuranReader === 'function') {
+    console.log("✅ تهيئة نظام القرآن");
+    initQuranReader();
+  }
+  
+  console.log("🎉 تم تشغيل جميع الأنظمة بنجاح");
 };
 
 // ==================== التوجيه المباشر للمسابقات ====================
 function navigateToQuiz(category) {
-  // تحديث الفئة الحالية
-  if (typeof currentCategory !== 'undefined') {
-    currentCategory = category;
-  }
-
-  // تحديث أزرار اختيار المسابقة
-  document.querySelectorAll('.category-select-btn').forEach((btn, i) => {
-    if (typeof allQuestions !== 'undefined') {
-      const catKey = Object.keys(allQuestions)[i];
-      const isActive = catKey === category;
-      btn.style.background = isActive ? '#2e7d32' : 'transparent';
-      btn.style.color = isActive ? 'white' : '#2e7d32';
+  console.log(`🎯 التوجيه إلى مسابقة: ${category}`);
+  
+  // استخدام نظام المسابقات الجديد
+  if (typeof selectQuizCategory === 'function') {
+    selectQuizCategory(category);
+  } else {
+    console.warn("⚠️ selectQuizCategory غير موجود");
+    // محاولة استخدام الطريقة القديمة
+    if (typeof currentCategory !== 'undefined') {
+      window.currentCategory = category;
     }
-  });
-
-  // إخفاء محدد العمليات الحسابية إذا كان موجود
-  const opSelector = document.querySelector('.math-operation-selector');
-  if (opSelector) {
-    opSelector.style.display = category === 'math' ? 'flex' : 'none';
-  }
-
-  // إظهار محدد العمليات إذا كان حساب
-  if (category === 'math' && typeof addMathOperationSelector === 'function') {
-    if (!document.querySelector('.math-operation-selector')) {
-      addMathOperationSelector();
+    
+    // تحديث أزرار اختيار المسابقة القديمة
+    document.querySelectorAll('.category-select-btn').forEach((btn, i) => {
+      if (typeof allQuestions !== 'undefined') {
+        const catKey = Object.keys(allQuestions)[i];
+        const isActive = catKey === category;
+        btn.style.background = isActive ? '#2e7d32' : 'transparent';
+        btn.style.color = isActive ? 'white' : '#2e7d32';
+      }
+    });
+    
+    // إظهار محدد العمليات إذا كان حساب
+    if (category === 'math' && typeof addMathOperationSelector === 'function') {
+      if (!document.querySelector('.math-operation-selector')) {
+        addMathOperationSelector();
+      }
     }
   }
-
+  
   // تمرير لقسم المسابقات
   const quizSection = document.getElementById('quiz');
   if (quizSection) {
@@ -181,16 +238,17 @@ function navigateToQuiz(category) {
       quizSection.style.boxShadow = '';
     }, 2000);
   }
+  
+  // إغلاق القائمة المنسدلة
+  closeMenu();
+}
 
-  // إغلاق القائمة المنسدلة إذا كانت مفتوحة
-  document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
-  if (typeof navLinksEl !== 'undefined' && navLinksEl) {
-    navLinksEl.classList.remove('active');
-  }
-  if (typeof overlay !== 'undefined' && overlay) {
-    overlay.classList.remove('active');
-  }
-  document.body.style.overflow = '';
+// ==================== دالة مساعدة للرجوع من أي قسم ====================
+function goToHome() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
 }
 
 // ==================== ربط روابط الفوتر والقائمة المنسدلة ====================
@@ -203,3 +261,26 @@ document.querySelectorAll('[data-quiz-category]').forEach(link => {
     }
   });
 });
+
+// ==================== إضافة دعم للتوافق مع الكود القديم ====================
+// هذه الدوال موجودة للتوافق مع الإصدارات القديمة فقط
+
+function buildCategoryButtons() {
+  console.log("⚠️ buildCategoryButtons مهجورة - استخدمي initAzkarSystem بدلاً منها");
+  if (typeof initAzkarSystem === 'function') {
+    initAzkarSystem();
+  }
+}
+
+function addCategorySelector() {
+  console.log("⚠️ addCategorySelector مهجورة - استخدمي initQuizSystem بدلاً منها");
+  if (typeof initQuizSystem === 'function') {
+    initQuizSystem();
+  }
+}
+
+// تصدير الدوال للاستخدام العام
+window.navigateToQuiz = navigateToQuiz;
+window.goToHome = goToHome;
+window.buildCategoryButtons = buildCategoryButtons;
+window.addCategorySelector = addCategorySelector;

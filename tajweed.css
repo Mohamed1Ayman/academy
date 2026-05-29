@@ -1,0 +1,683 @@
+/* ========================================== */
+/* TAJWEED SYSTEM - تصميم عصري كامل */
+/* ========================================== */
+
+/* ===== المتغيرات ===== */
+:root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f9f9f9;
+    --card-bg: #ffffff;
+    --text-primary: #1a2e1a;
+    --text-secondary: #666666;
+    --border-color: #e8f0e8;
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.12);
+    --shadow-hover: 0 20px 35px -12px rgba(46, 125, 50, 0.2);
+    --tajweed-green: #2e7d32;
+    --tajweed-light-green: #4caf50;
+    --tajweed-gold: #d4af37;
+    --tajweed-orange: #ff9800;
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.dark-mode {
+    --bg-primary: #1a1a2e;
+    --bg-secondary: #16213e;
+    --card-bg: #0f0f1a;
+    --text-primary: #e8e8e8;
+    --text-secondary: #aaaaaa;
+    --border-color: #2a2a3e;
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* ===== الحاوية الرئيسية ===== */
+#tajweed {
+    background: var(--bg-primary);
+    border-radius: 32px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+    transition: all var(--transition-normal);
+}
+
+/* ===== هيدر القسم ===== */
+.tajweed-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+}
+
+.tajweed-header h2 {
+    font-size: 2rem;
+    color: var(--tajweed-green);
+    margin-bottom: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.tajweed-header h2 i {
+    font-size: 2rem;
+    color: var(--tajweed-gold);
+}
+
+.tajweed-header p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+.tajweed-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--tajweed-green), var(--tajweed-light-green));
+    border-radius: 3px;
+}
+
+/* ===== حاوية البحث ===== */
+.tajweed-search-container {
+    background: var(--bg-secondary);
+    border-radius: 60px;
+    padding: 0.5rem 1rem;
+    margin-bottom: 2rem;
+    border: 1px solid var(--border-color);
+    transition: all var(--transition-normal);
+}
+
+.tajweed-search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.tajweed-search-icon {
+    position: absolute;
+    right: 15px;
+    color: var(--tajweed-green);
+    font-size: 1.2rem;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.tajweed-search-input {
+    width: 100%;
+    padding: 1rem 3rem 1rem 1.5rem;
+    border: 2px solid var(--border-color);
+    border-radius: 60px;
+    font-size: 1rem;
+    font-family: "Tajawal", sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    transition: all var(--transition-fast);
+}
+
+.tajweed-search-input:focus {
+    outline: none;
+    border-color: var(--tajweed-green);
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+}
+
+.tajweed-clear-search {
+    position: absolute;
+    left: 15px;
+    background: var(--bg-secondary);
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    transition: all var(--transition-fast);
+}
+
+.tajweed-clear-search:hover {
+    background: #f44336;
+    color: white;
+}
+
+/* ===== شريط الأقسام مع الحاوية ===== */
+.tajweed-slider-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.tajweed-categories-slider {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding: 1rem 0.5rem;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    cursor: grab;
+    scrollbar-width: thin;
+    flex: 1;
+    min-width: 0;
+}
+
+.tajweed-categories-slider:active {
+    cursor: grabbing;
+}
+
+.tajweed-categories-slider::-webkit-scrollbar {
+    height: 5px;
+}
+
+.tajweed-categories-slider::-webkit-scrollbar-track {
+    background: var(--border-color);
+    border-radius: 10px;
+}
+
+.tajweed-categories-slider::-webkit-scrollbar-thumb {
+    background: var(--tajweed-green);
+    border-radius: 10px;
+}
+
+/* أزرار التمرير */
+.tajweed-scroll-btn {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--tajweed-green);
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.tajweed-scroll-btn:hover {
+    background: var(--tajweed-green);
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .tajweed-scroll-btn {
+        display: flex;
+    }
+}
+
+/* ===== بطاقة القسم ===== */
+.tajweed-category-card {
+    flex-shrink: 0;
+    min-width: 160px;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 60px;
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.tajweed-category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--tajweed-green), var(--tajweed-light-green));
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+    z-index: 0;
+}
+
+.tajweed-category-card:hover::before {
+    opacity: 0.1;
+}
+
+.tajweed-category-card.active {
+    background: linear-gradient(135deg, var(--tajweed-green), var(--tajweed-light-green));
+    border-color: transparent;
+    box-shadow: 0 8px 20px rgba(46, 125, 50, 0.3);
+}
+
+.tajweed-category-card.active i,
+.tajweed-category-card.active span {
+    color: white;
+    position: relative;
+    z-index: 1;
+}
+
+.tajweed-category-card i {
+    font-size: 1.2rem;
+    color: var(--tajweed-green);
+    position: relative;
+    z-index: 1;
+    transition: color var(--transition-fast);
+}
+
+.tajweed-category-card span {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    position: relative;
+    z-index: 1;
+    transition: color var(--transition-fast);
+    white-space: nowrap;
+}
+
+.tajweed-category-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--tajweed-green);
+    box-shadow: var(--shadow-hover);
+}
+
+/* ===== إشارة السحب ===== */
+.tajweed-swipe-indicator {
+    display: none;
+    text-align: center;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    animation: bounce 1.5s ease infinite;
+}
+
+.tajweed-swipe-indicator i {
+    font-size: 1.2rem;
+    color: var(--tajweed-green);
+    background: var(--bg-secondary);
+    padding: 0.5rem;
+    border-radius: 50%;
+    box-shadow: var(--shadow-sm);
+}
+
+.tajweed-swipe-indicator span {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-right: 0.5rem;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(10px); }
+}
+
+@media (max-width: 768px) {
+    .tajweed-swipe-indicator {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+}
+
+/* ===== أزرار التنقل ===== */
+.tajweed-nav-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.tajweed-nav-btn {
+    background: transparent;
+    border: 2px solid var(--tajweed-green);
+    color: var(--tajweed-green);
+    padding: 0.6rem 1.2rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all var(--transition-normal);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.tajweed-nav-btn:hover {
+    background: var(--tajweed-green);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+}
+
+.tajweed-back-btn {
+    background: #666;
+    border-color: #666;
+    color: white;
+}
+
+.tajweed-back-btn:hover {
+    background: #555;
+}
+
+/* ===== القائمة المنسدلة ===== */
+.tajweed-quick-nav {
+    background: var(--bg-secondary);
+    border-radius: 20px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.tajweed-quick-nav label {
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+
+.tajweed-quick-nav select {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.8rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 60px;
+    font-size: 0.9rem;
+    font-family: "Tajawal", sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+/* ===== شبكة الأحكام ===== */
+.tajweed-rules-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* ===== بطاقة الحكم ===== */
+.tajweed-rule-card {
+    background: var(--card-bg);
+    border-radius: 24px;
+    overflow: hidden;
+    transition: all var(--transition-normal);
+    border: 1px solid var(--border-color);
+    animation: fadeInUp 0.5s ease backwards;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.tajweed-rule-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--tajweed-green);
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.tajweed-rule-card-header {
+    background: linear-gradient(135deg, var(--tajweed-green), #1b5e20);
+    padding: 1rem 1.2rem;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tajweed-rule-number {
+    background: rgba(255, 255, 255, 0.2);
+    width: 35px;
+    height: 35px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.tajweed-rule-level {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.2rem 0.8rem;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.level-beginner { background: #4caf50; }
+.level-intermediate { background: #ff9800; }
+.level-advanced { background: #f44336; }
+
+.tajweed-rule-card-content {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.tajweed-rule-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--tajweed-green);
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tajweed-rule-title i {
+    color: var(--tajweed-gold);
+}
+
+.tajweed-rule-text {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.tajweed-rule-example {
+    background: rgba(46, 125, 50, 0.08);
+    padding: 0.8rem;
+    border-radius: 16px;
+    font-family: 'Amiri', serif;
+    font-size: 1rem;
+    color: var(--tajweed-orange);
+    border-right: 3px solid var(--tajweed-gold);
+    margin-bottom: 1rem;
+}
+
+.tajweed-details-btn {
+    width: 100%;
+    background: transparent;
+    border: 2px solid var(--tajweed-green);
+    color: var(--tajweed-green);
+    padding: 0.6rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    margin-top: auto;
+}
+
+.tajweed-details-btn:hover {
+    background: var(--tajweed-green);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* ===== زر تحميل المزيد ===== */
+.tajweed-load-more-wrapper {
+    text-align: center;
+    margin: 2rem 0 1rem;
+}
+
+.tajweed-load-more-btn {
+    background: transparent;
+    border: 2px solid var(--tajweed-green);
+    color: var(--tajweed-green);
+    padding: 0.8rem 2rem;
+    border-radius: 60px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all var(--transition-normal);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.tajweed-load-more-btn:hover {
+    background: var(--tajweed-green);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(46, 125, 50, 0.3);
+}
+
+/* ===== رسالة ترحيب ===== */
+.tajweed-welcome {
+    text-align: center;
+    padding: 3rem;
+    background: var(--bg-secondary);
+    border-radius: 24px;
+    margin: 1rem 0;
+}
+
+.tajweed-welcome i {
+    font-size: 4rem;
+    color: var(--tajweed-green);
+    margin-bottom: 1rem;
+}
+
+/* ===== مودال الشرح ===== */
+.tajweed-detail-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-normal);
+}
+
+.tajweed-detail-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.tajweed-detail-content {
+    background: var(--card-bg);
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    border-radius: 32px;
+    overflow-y: auto;
+    transform: scale(0.9);
+    transition: transform var(--transition-normal);
+}
+
+.tajweed-detail-modal.active .tajweed-detail-content {
+    transform: scale(1);
+}
+
+.tajweed-detail-header {
+    background: linear-gradient(135deg, var(--tajweed-green), #1b5e20);
+    padding: 1.2rem;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+}
+
+.tajweed-detail-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: white;
+    transition: all var(--transition-fast);
+}
+
+.tajweed-detail-close:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: rotate(90deg);
+}
+
+.tajweed-detail-body {
+    padding: 1.5rem;
+}
+
+.tajweed-detail-example {
+    background: rgba(46, 125, 50, 0.1);
+    padding: 1rem;
+    border-radius: 16px;
+    font-family: 'Amiri', serif;
+    font-size: 1.2rem;
+    color: var(--tajweed-orange);
+    text-align: center;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+    .tajweed-rules-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    #tajweed { padding: 1rem; }
+    .tajweed-header h2 { font-size: 1.5rem; }
+    .tajweed-rules-grid { grid-template-columns: 1fr; }
+    .tajweed-category-card { min-width: 130px; padding: 0.6rem 1rem; }
+    .tajweed-quick-nav { flex-direction: column; align-items: stretch; }
+    .tajweed-quick-nav select { width: 100%; }
+}
+
+@media (max-width: 480px) {
+    .tajweed-category-card { min-width: 110px; padding: 0.5rem 0.8rem; }
+    .tajweed-category-card i { font-size: 1rem; }
+    .tajweed-category-card span { font-size: 0.75rem; }
+}
+
+/* ===== الوضع الليلي ===== */
+body.dark-mode .tajweed-rule-card,
+body.dark-mode .tajweed-category-card { background: var(--card-bg); }
+body.dark-mode .tajweed-nav-btn,
+body.dark-mode .tajweed-load-more-btn { border-color: var(--tajweed-light-green); color: #81c784; }
+body.dark-mode .tajweed-nav-btn:hover,
+body.dark-mode .tajweed-load-more-btn:hover { background: var(--tajweed-light-green); color: #1a1a2e; }
+body.dark-mode .tajweed-search-input { background: var(--bg-primary); color: var(--text-primary); }
