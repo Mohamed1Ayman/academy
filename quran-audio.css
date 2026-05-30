@@ -1,556 +1,848 @@
-/* ========== قسم الاستماع إلى القرآن ========== */
+/* ==================== قسم الاستماع إلى القرآن - معزول ==================== */
+/* استخدام محددات مخصصة لتجنب التعارض مع النافبار والأقسام الأخرى */
+
+/* حاوية القسم الرئيسية */
+#quranAudioSection {
+  position: relative;
+  z-index: 1;
+}
 
 .quran-audio-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  align-items: start;
 }
 
 /* ===== البطاقات ===== */
-.audio-card {
-    background: var(--card-bg);
-    border-radius: 24px;
-    overflow: hidden;
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-sm);
-    transition: all 0.3s ease;
+#quranAudioSection .audio-card {
+  background: var(--card-bg);
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
 }
 
-.audio-card:hover {
-    box-shadow: var(--shadow-md);
+#quranAudioSection .audio-card:hover {
+  box-shadow: var(--shadow-md);
 }
 
-.audio-card-header {
-    background: linear-gradient(135deg, #2e7d32, #1b5e20);
-    padding: 1rem 1.2rem;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
+#quranAudioSection .audio-card-header {
+  background: linear-gradient(135deg, #2e7d32, #1b5e20);
+  padding: 1rem 1.2rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-shrink: 0;
 }
 
-.audio-card-header i {
-    font-size: 1.3rem;
+#quranAudioSection .audio-card-header i {
+  font-size: 1.3rem;
 }
 
-.audio-card-header h3 {
-    margin: 0;
-    font-size: 1.1rem;
+#quranAudioSection .audio-card-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* ===== Dropdown لاختيار القارئ ===== */
+#quranAudioSection .reciter-selector {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+}
+
+#quranAudioSection .reciter-selector label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+#quranAudioSection .custom-dropdown {
+  position: relative;
+  width: 100%;
+  user-select: none;
+}
+
+#quranAudioSection .dropdown-selected {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1rem;
+  background: var(--bg-primary);
+  border: 2px solid var(--border-color);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#quranAudioSection .dropdown-selected:hover {
+  border-color: #2e7d32;
+  background: rgba(46, 125, 50, 0.02);
+}
+
+#quranAudioSection .dropdown-selected.active {
+  border-color: #2e7d32;
+  border-radius: 16px 16px 0 0;
+}
+
+#quranAudioSection .selected-info {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+#quranAudioSection .selected-info i {
+  font-size: 1.2rem;
+  color: #2e7d32;
+}
+
+#quranAudioSection .selected-text {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+#quranAudioSection .selected-style {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  margin-top: 0.2rem;
+}
+
+#quranAudioSection .dropdown-icon {
+  transition: transform 0.3s ease;
+  color: var(--text-secondary);
+}
+
+#quranAudioSection .dropdown-icon.rotated {
+  transform: rotate(180deg);
+}
+
+#quranAudioSection .dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--bg-primary);
+  border: 2px solid #2e7d32;
+  border-top: none;
+  border-radius: 0 0 16px 16px;
+  max-height: 320px;
+  overflow: hidden;
+  z-index: 100;
+  display: none;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+#quranAudioSection .dropdown-menu.show {
+  display: block;
+  animation: quranDropdownFadeIn 0.2s ease;
+}
+
+@keyframes quranDropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#quranAudioSection .dropdown-search {
+  padding: 0.8rem;
+  border-bottom: 1px solid var(--border-color);
+ 
+  top: 0;
+  background: var(--bg-primary);
+}
+
+#quranAudioSection .dropdown-search input {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 30px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  font-family: "Tajawal", sans-serif;
+}
+
+#quranAudioSection .dropdown-search input:focus {
+  outline: none;
+  border-color: #2e7d32;
+}
+
+#quranAudioSection .dropdown-items {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+#quranAudioSection .dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-bottom: 1px solid var(--border-color);
+}
+
+#quranAudioSection .dropdown-item:hover {
+  background: rgba(46, 125, 50, 0.08);
+}
+
+#quranAudioSection .dropdown-item.active {
+  background: rgba(46, 125, 50, 0.15);
+  border-right: 3px solid #2e7d32;
+}
+
+#quranAudioSection .item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+#quranAudioSection .item-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+}
+
+#quranAudioSection .item-style {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+}
+
+#quranAudioSection .item-check {
+  color: #2e7d32;
+  font-size: 1rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+#quranAudioSection .dropdown-item.active .item-check {
+  opacity: 1;
+}
+
+/* ===== فلتر القراءات ===== */
+#quranAudioSection .recitation-filter {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+}
+
+#quranAudioSection .filter-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+#quranAudioSection .filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+#quranAudioSection .filter-btn {
+  padding: 0.4rem 1rem;
+  border: 1.5px solid var(--border-color);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: all 0.3s;
+  font-family: "Tajawal", sans-serif;
+}
+
+#quranAudioSection .filter-btn:hover {
+  border-color: #2e7d32;
+  background: rgba(46, 125, 50, 0.05);
+}
+
+#quranAudioSection .filter-btn.active {
+  background: #2e7d32;
+  border-color: #2e7d32;
+  color: white;
 }
 
 /* ===== شبكة القراء ===== */
-.reciters-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 0.8rem;
-    padding: 1rem;
+#quranAudioSection .reciters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.8rem;
+  padding: 1rem;
+  max-height: 320px;
+  overflow-y: auto;
 }
 
-.reciter-card {
-    background: var(--bg-secondary);
-    border-radius: 12px;
-    padding: 0.8rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
-    text-align: center;
+#quranAudioSection .reciters-grid::-webkit-scrollbar {
+  width: 5px;
 }
 
-.reciter-card:hover {
-    transform: translateY(-3px);
-    border-color: #2e7d32;
-    background: rgba(46, 125, 50, 0.05);
+#quranAudioSection .reciters-grid::-webkit-scrollbar-track {
+  background: var(--border-color);
+  border-radius: 10px;
 }
 
-.reciter-card.active {
-    border-color: #2e7d32;
-    background: rgba(46, 125, 50, 0.1);
+#quranAudioSection .reciters-grid::-webkit-scrollbar-thumb {
+  background: #2e7d32;
+  border-radius: 10px;
 }
 
-.reciter-card i {
-    font-size: 1.5rem;
-    color: #2e7d32;
-    display: block;
-    margin-bottom: 0.3rem;
+#quranAudioSection .reciter-card {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
-.reciter-card .reciter-name {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text-primary);
+#quranAudioSection .reciter-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #2e7d32, #4caf50);
+  transform: scaleX(0);
+  transition: transform 0.3s;
 }
 
-.reciter-card .reciter-style {
-    font-size: 0.7rem;
-    color: var(--text-secondary);
+#quranAudioSection .reciter-card:hover::before {
+  transform: scaleX(1);
+}
+
+#quranAudioSection .reciter-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(46, 125, 50, 0.2);
+  background: rgba(46, 125, 50, 0.03);
+}
+
+#quranAudioSection .reciter-card.active {
+  border-color: #2e7d32;
+  background: rgba(46, 125, 50, 0.08);
+}
+
+#quranAudioSection .reciter-card.active::before {
+  transform: scaleX(1);
+}
+
+#quranAudioSection .reciter-card i {
+  font-size: 1.5rem;
+  color: #2e7d32;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+#quranAudioSection .reciter-card .reciter-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#quranAudioSection .reciter-card .reciter-style {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  margin-top: 0.2rem;
 }
 
 /* ===== شبكة السور ===== */
-.surah-search-box {
-    padding: 0.8rem 1rem;
-    position: relative;
+#quranAudioSection .surah-search-box {
+  padding: 0.8rem 1rem;
+  position: relative;
+  flex-shrink: 0;
 }
 
-.surah-search-box i {
-    position: absolute;
-    right: 1.8rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #2e7d32;
-    font-size: 1rem;
-    z-index: 2;
-    pointer-events: none;
+#quranAudioSection .surah-search-box i {
+  position: absolute;
+  right: 1.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #2e7d32;
+  font-size: 1rem;
+  z-index: 2;
+  pointer-events: none;
 }
 
-.surah-search-box input {
-    width: 100%;
-    padding: 0.8rem 2.8rem 0.8rem 1rem;
-    border: 2px solid var(--border-color);
-    border-radius: 50px;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    font-family: "Tajawal", sans-serif;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
+#quranAudioSection .surah-search-box input {
+  width: 100%;
+  padding: 0.7rem 2.5rem 0.7rem 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 50px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: "Tajawal", sans-serif;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
 }
 
-.surah-search-box input:focus {
-    outline: none;
-    border-color: #2e7d32;
-    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+#quranAudioSection .surah-search-box input:focus {
+  outline: none;
+  border-color: #2e7d32;
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
 }
 
-.surahs-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 0.5rem;
-    padding: 0 1rem 1rem;
-    max-height: 300px;
-    overflow-y: auto;
+#quranAudioSection .surahs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 0.5rem;
+  padding: 0 1rem 1rem;
+  max-height: 340px;
+  overflow-y: auto;
 }
 
-.surah-card {
-    background: var(--bg-secondary);
-    border-radius: 10px;
-    padding: 0.5rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: center;
-    border: 1px solid var(--border-color);
+#quranAudioSection .surahs-grid::-webkit-scrollbar {
+  width: 5px;
 }
 
-.surah-card:hover {
-    background: rgba(46, 125, 50, 0.1);
-    transform: scale(1.02);
+#quranAudioSection .surahs-grid::-webkit-scrollbar-track {
+  background: var(--border-color);
+  border-radius: 10px;
 }
 
-.surah-card.active {
-    background: #2e7d32;
-    color: white;
-    border-color: #2e7d32;
+#quranAudioSection .surahs-grid::-webkit-scrollbar-thumb {
+  background: #2e7d32;
+  border-radius: 10px;
 }
 
-.surah-number {
-    font-size: 0.7rem;
-    opacity: 0.7;
-    display: block;
+#quranAudioSection .surah-card {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 0.5rem 0.3rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
 }
 
-.surah-name {
-    font-size: 0.85rem;
-    font-weight: 600;
+#quranAudioSection .surah-card:hover {
+  background: rgba(46, 125, 50, 0.1);
+  transform: translateY(-2px);
+  border-color: #2e7d32;
 }
 
-.surah-ayahs {
-    font-size: 0.65rem;
-    display: block;
-    color: var(--text-secondary);
-    margin-top: 0.2rem;
+#quranAudioSection .surah-card.active {
+  background: #2e7d32;
+  color: white;
+  border-color: #2e7d32;
 }
 
-.surah-card.active .surah-ayahs {
-    color: rgba(255, 255, 255, 0.7);
+#quranAudioSection .surah-card.active .surah-ayahs {
+  color: rgba(255, 255, 255, 0.7);
 }
 
-/* ===== عداد السور ===== */
-.surah-counter {
-    text-align: center;
-    padding: 0.5rem;
-    margin: 0.5rem 1rem;
-    background: var(--bg-secondary);
-    border-radius: 50px;
-    font-size: 0.85rem;
-    font-weight: bold;
-    color: var(--text-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
+#quranAudioSection .surah-number {
+  font-size: 0.65rem;
+  opacity: 0.7;
+  display: block;
 }
 
-.surah-counter i {
-    color: #2e7d32;
-    font-size: 0.9rem;
+#quranAudioSection .surah-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90px;
 }
 
-.surah-counter span:first-child {
-    color: #2e7d32;
-    font-size: 1rem;
-    font-weight: bold;
+#quranAudioSection .surah-ayahs {
+  font-size: 0.6rem;
+  display: block;
+  color: var(--text-secondary);
 }
 
-/* ===== معلومات السورة المختارة ===== */
-.selected-info {
-    text-align: center;
-    padding: 1rem;
-    background: var(--bg-secondary);
-    margin: 1rem;
-    border-radius: 16px;
+
+
+#quranAudioSection .surah-counter {
+  text-align: center;
+  padding: 0.5rem;
+  margin: 0.5rem 1rem;
+  background: var(--bg-secondary);
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
-.selected-info .surah-name {
-    font-size: 1.3rem;
-    font-weight: bold;
-    color: #2e7d32;
-    display: block;
+#quranAudioSection .surah-counter i {
+  color: #2e7d32;
+  font-size: 0.85rem;
 }
 
-.selected-info .reciter-name {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    display: block;
-    margin-top: 0.3rem;
+#quranAudioSection .surah-counter span:first-child {
+  color: #2e7d32;
+  font-size: 0.95rem;
+  font-weight: bold;
 }
 
-/* ===== اختيار الآيات ===== */
-.ayah-range {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    padding: 0 1rem;
-    margin-bottom: 1rem;
-    flex-wrap: wrap;
+#quranAudioSection .selected-info {
+  text-align: center;
+  padding: 0.8rem;
+  background: var(--bg-secondary);
+  margin: 0.5rem 1rem;
+  border-radius: 20px;
 }
 
-.range-group {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: var(--bg-secondary);
-    padding: 0.3rem 0.8rem;
-    border-radius: 50px;
+#quranAudioSection .selected-info .surah-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #2e7d32;
+  display: block;
+  white-space: normal;
+  max-width: none;
 }
 
-.range-group label {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
+#quranAudioSection .selected-info .reciter-name {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  display: block;
+  margin-top: 0.2rem;
 }
 
-.range-group input {
-    width: 60px;
-    padding: 0.3rem;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    text-align: center;
+/* ===== الموجات الصوتية ===== */
+#quranAudioSection .visualizer-container {
+  text-align: center;
+  padding: 0.5rem;
+  margin: 0.5rem 1rem;
+  background: rgba(46, 125, 50, 0.06);
+  border-radius: 60px;
 }
 
-/* ===== شريط التقدم العصري ===== */
-.progress-container {
-    width: 100%;
-    padding: 0.5rem 1rem;
+#quranAudioSection .audio-visualizer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 50px;
 }
 
-.custom-progress-bar {
-    width: 100%;
-    height: 8px;
-    background: rgba(46, 125, 50, 0.15);
-    border-radius: 20px;
-    position: relative;
-    cursor: pointer;
-    overflow: visible;
-    transition: height 0.2s ease;
+#quranAudioSection .visualizer-bar {
+  width: 4px;
+  background: linear-gradient(180deg, #2e7d32, #4caf50, #66bb6a);
+  border-radius: 4px;
+  transition: height 0.08s ease-out;
 }
 
-.custom-progress-bar:hover {
-    height: 10px;
+/* ===== شريط التقدم ===== */
+#quranAudioSection .progress-container {
+  width: 100%;
+  padding: 0.5rem 1rem;
 }
 
-.custom-progress-fill {
-    width: 0%;
-    height: 100%;
-    background: linear-gradient(90deg, #2e7d32, #4caf50, #66bb6a);
-    border-radius: 20px;
-    position: relative;
-    transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+#quranAudioSection .custom-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(46, 125, 50, 0.15);
+  border-radius: 10px;
+  position: relative;
+  cursor: pointer;
+  transition: height 0.2s ease;
+  direction: ltr;
 }
 
-.custom-progress-fill.playing {
-    background: linear-gradient(90deg, #2e7d32, #4caf50, #66bb6a);
-    background-size: 200% 100%;
-    animation: wave 2s ease infinite;
+#quranAudioSection .custom-progress-bar:hover {
+  height: 8px;
 }
 
-@keyframes wave {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+#quranAudioSection .custom-progress-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #2e7d32, #4caf50, #66bb6a);
+  border-radius: 10px;
+  position: relative;
+  transition: width 0.1s linear;
 }
 
-.custom-progress-handle {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translate(50%, -50%);
-    width: 16px;
-    height: 16px;
-    background: white;
-    border: 2px solid #2e7d32;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    z-index: 2;
+#quranAudioSection .custom-progress-handle {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
+  background: white;
+  border: 2px solid #2e7d32;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  opacity: 0.9;
 }
 
-.custom-progress-bar:hover .custom-progress-handle {
-    width: 20px;
-    height: 20px;
-    box-shadow: 0 0 12px rgba(46, 125, 50, 0.6);
+#quranAudioSection .custom-progress-handle:hover {
+  transform: translate(-50%, -50%) scale(1.2);
+  opacity: 1;
 }
 
-/* ===== معلومات الوقت ===== */
-.time-info {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 0.5rem;
-    font-size: 0.7rem;
-    color: var(--text-secondary);
-    font-family: monospace;
+#quranAudioSection .time-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  font-family: monospace;
 }
 
-.current-time, .duration-time {
-    background: var(--bg-secondary);
-    padding: 0.2rem 0.6rem;
-    border-radius: 20px;
+#quranAudioSection .current-time,
+#quranAudioSection .duration-time {
+  background: var(--bg-secondary);
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
 }
 
-/* ===== حاوية الآية الحالية ===== */
-.current-ayah-container {
-    text-align: center;
-    padding: 0.5rem;
-    margin: 0.5rem 1rem;
-    background: rgba(46, 125, 50, 0.08);
-    border-radius: 50px;
+#quranAudioSection .current-ayah-container {
+  text-align: center;
+  padding: 0.3rem;
+  margin: 0.3rem 1rem;
+  background: rgba(46, 125, 50, 0.08);
+  border-radius: 50px;
 }
 
-.current-ayah-text {
-    font-size: 0.85rem;
-    color: #2e7d32;
-    font-weight: 600;
-    font-family: 'Amiri', serif;
+#quranAudioSection .current-ayah-text {
+  font-size: 0.75rem;
+  color: #2e7d32;
+  font-weight: 600;
+  font-family: "Amiri", serif;
 }
 
 /* ===== أزرار التحكم ===== */
-.player-controls {
-    display: flex;
-    gap: 0.8rem;
-    justify-content: center;
-    padding: 0.5rem 1rem 1rem;
-    flex-wrap: wrap;
+#quranAudioSection .player-controls {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+  padding: 0.5rem 1rem 1rem;
+  flex-wrap: wrap;
 }
 
-.control-btn {
-    background: linear-gradient(135deg, #2e7d32, #1b5e20);
-    color: white;
-    border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: "Tajawal", sans-serif;
-    font-size: 0.85rem;
+#quranAudioSection .control-btn {
+  background: linear-gradient(135deg, #2e7d32, #1b5e20);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: "Tajawal", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 
-.control-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+#quranAudioSection .control-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
 }
 
-.control-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+#quranAudioSection .control-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
-/* ===== أزرار إضافية ===== */
-.loop-btn {
-    background: linear-gradient(135deg, #ff9800, #f57c00) !important;
+#quranAudioSection .loop-btn {
+  background: linear-gradient(135deg, #ff9800, #f57c00) !important;
 }
 
-.loop-btn.active {
-    background: linear-gradient(135deg, #4caf50, #2e7d32) !important;
-    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+#quranAudioSection .loop-btn.active {
+  background: linear-gradient(135deg, #4caf50, #2e7d32) !important;
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
 }
 
-.next-btn {
-    background: linear-gradient(135deg, #2196f3, #1976d2) !important;
+#quranAudioSection .next-btn {
+  background: linear-gradient(135deg, #2196f3, #1976d2) !important;
 }
 
-/* ===== حالة الصوت ===== */
-.audio-status {
-    text-align: center;
-    padding: 0.5rem;
-    margin-bottom: 0.5rem;
-    font-size: 0.8rem;
-    color: var(--text-secondary);
+#quranAudioSection .audio-status {
+  text-align: center;
+  padding: 0.3rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
 }
 
-.audio-status.success {
-    color: #4caf50;
+#quranAudioSection .audio-status.success {
+  color: #4caf50;
 }
 
-.audio-status.error {
-    color: #f44336;
+#quranAudioSection .audio-status.error {
+  color: #f44336;
 }
 
-.audio-status.loading {
-    color: #ff9800;
+#quranAudioSection .audio-status.loading {
+  color: #ff9800;
 }
 
-.audio-status.playing {
-    color: #2196f3;
+#quranAudioSection .audio-status.playing {
+  color: #2196f3;
 }
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-    .quran-audio-container {
-        grid-template-columns: 1fr;
-    }
-    
-    .reciters-grid {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    }
-    
-    .surahs-grid {
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-        max-height: 250px;
-    }
-    
-    .player-controls {
-        gap: 0.5rem;
-    }
-    
-    .control-btn {
-        flex: 1;
-        justify-content: center;
-        padding: 0.5rem 0.8rem;
-        font-size: 0.75rem;
-    }
-    
-    .progress-container {
-        padding: 0.5rem;
-    }
-    
-    .time-info {
-        font-size: 0.6rem;
-    }
-    
-    .current-ayah-text {
-        font-size: 0.7rem;
-    }
-    
-    .surah-counter {
-        font-size: 0.75rem;
-        margin: 0.5rem;
-    }
+@media (max-width: 992px) {
+  #quranAudioSection .audio-card.player-card {
+    position: static;
+  }
 }
 
-@media (max-width: 480px) {
-    .audio-card-header h3 {
-        font-size: 0.95rem;
-    }
-    
-    .selected-info .surah-name {
-        font-size: 1rem;
-    }
-    
-    .control-btn {
-        padding: 0.4rem 0.6rem;
-        font-size: 0.7rem;
-    }
-    
-    .range-group {
-        padding: 0.2rem 0.5rem;
-    }
-    
-    .range-group label {
-        font-size: 0.7rem;
-    }
-    
-    .range-group input {
-        width: 50px;
-        font-size: 0.7rem;
-    }
+@media (max-width: 768px) {
+  #quranAudioSection .quran-audio-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  #quranAudioSection .reciters-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    max-height: 280px;
+  }
+
+  #quranAudioSection .surahs-grid {
+    grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+    max-height: 260px;
+  }
+
+  #quranAudioSection .player-controls {
+    gap: 0.4rem;
+  }
+
+  #quranAudioSection .control-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.7rem;
+  }
 }
 
 /* ===== الوضع الليلي ===== */
-body.dark-mode .reciter-card,
-body.dark-mode .surah-card {
-    background: var(--bg-secondary);
+body.dark-mode #quranAudioSection .dropdown-menu {
+  background: var(--bg-primary);
 }
 
-body.dark-mode .reciter-card.active,
-body.dark-mode .surah-card.active {
-    background: #2e7d32;
-    color: white;
+body.dark-mode #quranAudioSection .dropdown-search input {
+  background: var(--bg-secondary);
 }
 
-body.dark-mode .custom-progress-bar {
-    background: rgba(76, 175, 80, 0.15);
+body.dark-mode #quranAudioSection .dropdown-item:hover {
+  background: rgba(76, 175, 80, 0.1);
 }
 
-body.dark-mode .custom-progress-fill {
-    background: linear-gradient(90deg, #4caf50, #81c784, #a5d6a7);
+body.dark-mode #quranAudioSection .dropdown-item.active {
+  background: rgba(76, 175, 80, 0.2);
 }
 
-body.dark-mode .custom-progress-handle {
-    background: #1a1a2e;
-    border-color: #81c784;
+body.dark-mode #quranAudioSection .reciter-card,
+body.dark-mode #quranAudioSection .surah-card {
+  background: var(--bg-secondary);
 }
 
-body.dark-mode .current-time,
-body.dark-mode .duration-time {
-    background: #1a1a2e;
+body.dark-mode #quranAudioSection .reciter-card.active,
+body.dark-mode #quranAudioSection .surah-card.active {
+  background: #2e7d32;
+  color: white;
 }
 
-body.dark-mode .current-ayah-container {
-    background: rgba(76, 175, 80, 0.1);
+body.dark-mode #quranAudioSection .filter-btn {
+  background: var(--bg-primary);
 }
 
-body.dark-mode .current-ayah-text {
-    color: #81c784;
+body.dark-mode #quranAudioSection .filter-btn.active {
+  background: #2e7d32;
+  color: white;
 }
 
-body.dark-mode .surah-counter {
-    background: #1a1a2e;
+body.dark-mode #quranAudioSection .visualizer-bar {
+  background: linear-gradient(180deg, #4caf50, #81c784, #a5d6a7);
 }
 
-body.dark-mode .surah-counter i,
-body.dark-mode .surah-counter span:first-child {
-    color: #81c784;
+body.dark-mode #quranAudioSection .custom-progress-fill {
+  background: linear-gradient(90deg, #4caf50, #81c784, #a5d6a7);
 }
 
-body.dark-mode .surah-search-box input {
-    background: var(--bg-primary);
-    border-color: var(--border-color);
-    color: var(--text-primary);
+body.dark-mode #quranAudioSection .custom-progress-handle {
+  background: #1a1a2e;
+  border-color: #81c784;
 }
 
-body.dark-mode .surah-search-box i {
-    color: #81c784;
+body.dark-mode #quranAudioSection .current-time,
+body.dark-mode #quranAudioSection .duration-time {
+  background: #1a1a2e;
+}
+
+body.dark-mode #quranAudioSection .current-ayah-container {
+  background: rgba(76, 175, 80, 0.1);
+}
+
+body.dark-mode #quranAudioSection .current-ayah-text {
+  color: #81c784;
+}
+
+body.dark-mode #quranAudioSection .surah-counter {
+  background: #1a1a2e;
+}
+
+body.dark-mode #quranAudioSection .surah-counter i,
+body.dark-mode #quranAudioSection .surah-counter span:first-child {
+  color: #81c784;
+}
+
+/* ==================== إصلاح Dropdown على الكمبيوتر ==================== */
+/* تأكيد أن dropdown يعمل على جميع الأجهزة */
+#quranAudioSection .custom-dropdown {
+  position: relative !important;
+  z-index: 1000 !important;
+}
+
+#quranAudioSection .dropdown-selected {
+  cursor: pointer !important;
+  position: relative !important;
+}
+
+#quranAudioSection .dropdown-menu {
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 1001 !important;
+  display: none !important;
+}
+
+#quranAudioSection .dropdown-menu.show {
+  display: block !important;
+}
+
+/* تأكيد عدم تعارض مع النافبار */
+.navbar .dropdown-menu {
+  z-index: 1002 !important;
 }

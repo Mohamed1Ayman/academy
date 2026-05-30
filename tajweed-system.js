@@ -62,7 +62,7 @@ function displayTajweedCategories() {
   container.innerHTML = html;
 }
 
-// ==================== تحميل قسم معين (عرض الأبواب) ====================
+// ==================== تحميل قسم معين ====================
 function loadTajweedCategory(categoryKey) {
   const category = tajweedDatabase[categoryKey];
   if (!category) return;
@@ -70,7 +70,6 @@ function loadTajweedCategory(categoryKey) {
   tajweedState.currentCategory = categoryKey;
   tajweedState.currentChapter = null;
   
-  // تحديث الفئة النشطة
   document.querySelectorAll('.tajweed-category-card').forEach(card => {
     card.classList.remove('active');
     if (card.getAttribute('data-category') === categoryKey) {
@@ -78,7 +77,6 @@ function loadTajweedCategory(categoryKey) {
     }
   });
   
-  // عرض الأبواب الفرعية
   displayChapters(category);
 }
 
@@ -126,12 +124,11 @@ function displayChapters(category) {
   container.innerHTML = html;
 }
 
-// ==================== عرض جميع الأحكام في القسم (بدون تقسيم أبواب) ====================
+// ==================== عرض جميع الأحكام ====================
 function showAllRulesInCategory(categoryKey) {
   const category = tajweedDatabase[categoryKey];
   if (!category) return;
   
-  // تجميع كل الأحكام من جميع الأبواب
   let allRules = [];
   Object.keys(category.chapters).forEach(chapterKey => {
     if (category.rules && category.rules[chapterKey]) {
@@ -149,7 +146,6 @@ function loadChapter(categoryKey, chapterKey) {
   const category = tajweedDatabase[categoryKey];
   const chapter = category.chapters[chapterKey];
   
-  // الحصول على أحكام هذا الباب
   let rules = [];
   if (category.rules && category.rules[chapterKey]) {
     rules = category.rules[chapterKey];
@@ -162,11 +158,14 @@ function loadChapter(categoryKey, chapterKey) {
   displayRulesList(category, chapter);
 }
 
-// ==================== عرض قائمة الأحكام (3 بطاقات فقط) ====================
+// ==================== عرض قائمة الأحكام ====================
 function displayRulesList(category, chapter = null) {
   const container = document.getElementById("tajweedDisplay");
   const visibleRules = tajweedState.currentRules.slice(0, tajweedState.displayedCount);
   const hasMore = tajweedState.displayedCount < tajweedState.currentRules.length;
+  
+  // تخزين القواعد في متغير عام للوصول إليها
+  window.currentDetailedRules = tajweedState.currentRules;
   
   let html = `
     <div class="tajweed-header">
@@ -180,7 +179,6 @@ function displayRulesList(category, chapter = null) {
       <p>${chapter ? `أحكام ${chapter.name}` : category.description}</p>
     </div>
     
-    <!-- قائمة الاختيار السريع -->
     <div class="tajweed-quick-nav">
       <label><i class="fas fa-search"></i> اذهب إلى حكم:</label>
       <select id="tajweedQuickSelect" onchange="goToRule(this.value)">
@@ -196,6 +194,9 @@ function displayRulesList(category, chapter = null) {
     const levelClass = rule.level === 'مبتدئ' ? 'level-beginner' : (rule.level === 'متوسط' ? 'level-intermediate' : 'level-advanced');
     const levelText = rule.level || 'مبتدئ';
     
+    // ✅ تخزين ruleId بشكل آمن
+    const ruleId = index;
+    
     html += `
       <div class="tajweed-rule-card" data-rule-index="${index}" style="animation-delay: ${index * 0.1}s">
         <div class="tajweed-rule-card-header">
@@ -204,14 +205,14 @@ function displayRulesList(category, chapter = null) {
         </div>
         <div class="tajweed-rule-card-content">
           <h4 class="tajweed-rule-title">
-            <i class="fas fa-star-of-life"></i> ${rule.title}
+            <i class="fas fa-star-of-life"></i> ${sanitizeText(rule.title)}
           </h4>
-          <p class="tajweed-rule-text">${(rule.text || "").substring(0, 120)}${(rule.text || "").length > 120 ? '...' : ''}</p>
+          <p class="tajweed-rule-text">${sanitizeText((rule.text || "").substring(0, 120))}${(rule.text || "").length > 120 ? '...' : ''}</p>
           <div class="tajweed-rule-example">
-            📖 ${rule.example || "مثال"}
+            📖 ${sanitizeText(rule.example || "مثال")}
             <small>مثال من القرآن الكريم</small>
           </div>
-          <button class="tajweed-details-btn" onclick='showRuleDetails(${JSON.stringify(rule)})'>
+          <button class="tajweed-details-btn" onclick="showRuleDetailsById(${ruleId})">
             <i class="fas fa-info-circle"></i> شرح تفصيلي
           </button>
         </div>
@@ -245,6 +246,123 @@ function displayRulesList(category, chapter = null) {
   container.innerHTML = html;
 }
 
+// ==================== دالة تنظيف النصوص ====================
+function sanitizeText(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+    .replace(/\\/g, '&#92;');
+}
+
+// ==================== عرض شرح تفصيلي بواسطة ID ====================
+function showRuleDetailsById(ruleId) {
+  const rule = tajweedState.currentRules[ruleId];
+  if (!rule) return;
+  
+  let modal = document.getElementById('tajweedDetailModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'tajweedDetailModal';
+    modal.className = 'tajweed-detail-modal';
+    document.body.appendChild(modal);
+  }
+  
+  let html = `
+    <div class="tajweed-detail-content">
+      <div class="tajweed-detail-header">
+        <h3><i class="fas fa-info-circle"></i> ${sanitizeText(rule.title)}</h3>
+        <button class="tajweed-detail-close" onclick="closeRuleDetails()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="tajweed-detail-body">
+        <h4><i class="fas fa-graduation-cap"></i> التعريف</h4>
+        <p>${sanitizeText(rule.text || "لا يوجد شرح متاح")}</p>
+        
+        <h4><i class="fas fa-quran"></i> مثال من القرآن</h4>
+        <div class="tajweed-detail-example">
+          ${sanitizeText(rule.example || "لا يوجد مثال")}
+        </div>
+  `;
+  
+  if (rule.detailedExplanation) {
+    const exp = rule.detailedExplanation;
+    
+    if (exp.definition) {
+      html += `<h4><i class="fas fa-book-open"></i> الشرح المفصل</h4><p>${sanitizeText(exp.definition)}</p>`;
+    }
+    
+    if (exp.howToPronounce) {
+      html += `<h4><i class="fas fa-microphone-alt"></i> طريقة النطق</h4><p>${sanitizeText(exp.howToPronounce)}</p>`;
+    }
+    
+    if (exp.letters) {
+      html += `<p><strong>🔤 الحروف:</strong> ${sanitizeText(exp.letters)}</p>`;
+    }
+    
+    if (exp.condition) {
+      html += `<p><strong>📌 الشرط:</strong> ${sanitizeText(exp.condition)}</p>`;
+    }
+    
+    if (exp.commonMistakes && exp.commonMistakes.length) {
+      html += `<h4><i class="fas fa-exclamation-triangle"></i> أخطاء شائعة يجب تجنبها</h4><ul style="padding-right: 1.5rem; line-height: 1.8;">`;
+      exp.commonMistakes.forEach(m => {
+        html += `<li>${sanitizeText(m)}</li>`;
+      });
+      html += `</ul>`;
+    }
+    
+    if (exp.trainingTips && exp.trainingTips.length) {
+      html += `<h4><i class="fas fa-chalkboard-user"></i> نصائح تدريبية</h4><ul style="padding-right: 1.5rem; line-height: 1.8;">`;
+      exp.trainingTips.forEach(t => {
+        html += `<li>${sanitizeText(t)}</li>`;
+      });
+      html += `</ul>`;
+    }
+    
+    if (exp.scholarQuote) {
+      html += `<div class="scholar-quote"><i class="fas fa-quote-right"></i> ${sanitizeText(exp.scholarQuote)}</div>`;
+    }
+  }
+  
+  html += `
+        <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(46, 125, 50, 0.1); border-radius: 16px;">
+          <p><i class="fas fa-chalkboard-user"></i> <strong>تذكير:</strong> إتقان هذا الحكم يحتاج إلى تدريب مستمر، فلا تيأس وكرر المحاولة.</p>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  modal.innerHTML = html;
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+// ==================== عرض شرح تفصيلي (للتوافق مع البحث) ====================
+function showRuleDetails(rule) {
+  // تخزين القاعدة مؤقتاً ثم عرضها
+  if (rule && rule.id !== undefined) {
+    // البحث عن القاعدة في القائمة الحالية
+    const foundIndex = tajweedState.currentRules.findIndex(r => r.id === rule.id);
+    if (foundIndex !== -1) {
+      showRuleDetailsById(foundIndex);
+      return;
+    }
+  }
+  
+  // إذا لم نجدها، نضيفها مؤقتاً
+  if (rule) {
+    const tempId = tajweedState.currentRules.length;
+    tajweedState.currentRules.push(rule);
+    showRuleDetailsById(tempId);
+    tajweedState.currentRules.pop();
+  }
+}
+
 // ==================== تحميل المزيد من الأحكام ====================
 function loadMoreRules() {
   if (tajweedState.isLoading) return;
@@ -268,56 +386,7 @@ function loadMoreRules() {
 // ==================== الانتقال إلى حكم معين ====================
 function goToRule(ruleIndex) {
   if (!ruleIndex || ruleIndex === "") return;
-  
-  const rule = tajweedState.currentRules[parseInt(ruleIndex)];
-  if (rule) {
-    showRuleDetails(rule);
-  }
-}
-
-// ==================== عرض شرح تفصيلي ====================
-function showRuleDetails(rule) {
-  let modal = document.getElementById('tajweedDetailModal');
-  if (!modal) {
-    modal = document.createElement('div');
-    modal.id = 'tajweedDetailModal';
-    modal.className = 'tajweed-detail-modal';
-    document.body.appendChild(modal);
-  }
-  
-  modal.innerHTML = `
-    <div class="tajweed-detail-content">
-      <div class="tajweed-detail-header">
-        <h3><i class="fas fa-info-circle"></i> ${rule.title}</h3>
-        <button class="tajweed-detail-close" onclick="closeRuleDetails()">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="tajweed-detail-body">
-        <h4><i class="fas fa-graduation-cap"></i> التعريف</h4>
-        <p>${rule.text || "لا يوجد شرح متاح"}</p>
-        
-        <h4><i class="fas fa-quran"></i> مثال من القرآن</h4>
-        <div class="tajweed-detail-example">
-          ${rule.example || "لا يوجد مثال"}
-        </div>
-        
-        <h4><i class="fas fa-lightbulb"></i> نصائح لتطبيق الحكم</h4>
-        <ul style="padding-right: 1.5rem; line-height: 1.8;">
-          <li>كرر التلاوة عدة مرات مع التركيز على هذا الحكم</li>
-          <li>استمع إلى قراءة كبار القراء لتطبيق الحكم بشكل صحيح</li>
-          <li>درب نفسك على آيات أخرى تحتوي على نفس الحكم</li>
-        </ul>
-        
-        <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(46, 125, 50, 0.1); border-radius: 16px;">
-          <p><i class="fas fa-chalkboard-user"></i> <strong>تذكير:</strong> إتقان هذا الحكم يحتاج إلى تدريب مستمر، فلا تيأس وكرر المحاولة.</p>
-        </div>
-      </div>
-    </div>
-  `;
-  
-  modal.classList.add('active');
-  document.body.style.overflow = 'hidden';
+  showRuleDetailsById(parseInt(ruleIndex));
 }
 
 // ==================== إغلاق شرح تفصيلي ====================
@@ -347,7 +416,6 @@ function searchTajweed(keyword) {
     const category = tajweedDatabase[catKey];
     
     Object.keys(category.chapters || {}).forEach(chapKey => {
-      const chapter = category.chapters[chapKey];
       const rules = category.rules?.[chapKey] || [];
       
       rules.forEach(rule => {
@@ -355,7 +423,6 @@ function searchTajweed(keyword) {
             rule.text?.toLowerCase().includes(searchTerm)) {
           results.push({
             categoryName: category.name,
-            chapterName: chapter.name,
             ...rule
           });
         }
@@ -371,19 +438,22 @@ function searchTajweed(keyword) {
         <button class="tajweed-nav-btn" onclick="displayTajweedCategories()">
           <i class="fas fa-arrow-right"></i> جميع الأقسام
         </button>
-        <h2>🔍 نتائج البحث عن: "${keyword}"</h2>
+        <h2>🔍 نتائج البحث عن: "${sanitizeText(keyword)}"</h2>
         <p style="color: #f44336;">❌ لا توجد نتائج</p>
       </div>
     `;
     return;
   }
   
+  // تخزين نتائج البحث مؤقتاً
+  window.searchResults = results;
+  
   let html = `
     <div class="tajweed-header">
       <button class="tajweed-nav-btn" onclick="displayTajweedCategories()">
         <i class="fas fa-arrow-right"></i> جميع الأقسام
       </button>
-      <h2>🔍 نتائج البحث عن: "${keyword}"</h2>
+      <h2>🔍 نتائج البحث عن: "${sanitizeText(keyword)}"</h2>
       <p>وجدنا ${results.length} نتيجة</p>
     </div>
     
@@ -395,17 +465,17 @@ function searchTajweed(keyword) {
       <div class="tajweed-rule-card" style="animation-delay: ${idx * 0.1}s">
         <div class="tajweed-rule-card-header">
           <div class="tajweed-rule-number">${idx + 1}</div>
-          <div class="tajweed-rule-level level-beginner">${result.categoryName}</div>
+          <div class="tajweed-rule-level level-beginner">${sanitizeText(result.categoryName)}</div>
         </div>
         <div class="tajweed-rule-card-content">
           <h4 class="tajweed-rule-title">
-            <i class="fas fa-book"></i> ${result.title}
+            <i class="fas fa-book"></i> ${sanitizeText(result.title)}
           </h4>
-          <p class="tajweed-rule-text">${(result.text || "").substring(0, 100)}...</p>
+          <p class="tajweed-rule-text">${sanitizeText((result.text || "").substring(0, 100))}...</p>
           <div class="tajweed-rule-example">
-            📖 ${result.example || "مثال"}
+            📖 ${sanitizeText(result.example || "مثال")}
           </div>
-          <button class="tajweed-details-btn" onclick='showRuleDetails(${JSON.stringify(result)})'>
+          <button class="tajweed-details-btn" onclick='showSearchResultDetails(${idx})'>
             <i class="fas fa-info-circle"></i> شرح تفصيلي
           </button>
         </div>
@@ -415,6 +485,18 @@ function searchTajweed(keyword) {
   
   html += `</div>`;
   container.innerHTML = html;
+}
+
+// ==================== عرض تفاصيل نتيجة البحث ====================
+function showSearchResultDetails(index) {
+  if (window.searchResults && window.searchResults[index]) {
+    const rule = window.searchResults[index];
+    // إضافة القاعدة مؤقتاً للعرض
+    const tempId = tajweedState.currentRules.length;
+    tajweedState.currentRules.push(rule);
+    showRuleDetailsById(tempId);
+    tajweedState.currentRules.pop();
+  }
 }
 
 // ==================== إضافة واجهة البحث ====================
@@ -550,10 +632,12 @@ window.loadTajweedCategory = loadTajweedCategory;
 window.loadChapter = loadChapter;
 window.showAllRulesInCategory = showAllRulesInCategory;
 window.loadMoreRules = loadMoreRules;
+window.showRuleDetailsById = showRuleDetailsById;
 window.showRuleDetails = showRuleDetails;
 window.closeRuleDetails = closeRuleDetails;
 window.goToRule = goToRule;
 window.searchTajweed = searchTajweed;
+window.showSearchResultDetails = showSearchResultDetails;
 
 // ==================== بدء النظام ====================
 if (document.readyState === 'loading') {

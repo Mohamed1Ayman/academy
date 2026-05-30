@@ -95,4 +95,6 @@ footer {
 
 body {
   -webkit-tap-highlight-color: transparent; /* للموبايل */
+  user-select: none; /* لمنع التحديد في المتصفحات الحديثة */
 }
+

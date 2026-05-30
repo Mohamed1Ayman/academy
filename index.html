@@ -20,6 +20,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
+
     <link rel="stylesheet" href="themes.css" />
     <link rel="stylesheet" href="tajweed.css" />
     <link rel="stylesheet" href="navbar.css" />
@@ -35,6 +36,7 @@
     <link rel="stylesheet" href="hadith.css" />
     <link rel="stylesheet" href="footer.css" />
     <link rel="stylesheet" href="quran-audio.css" />
+    
     <link rel="stylesheet" href="style.css" />
   </head>
   <body class="light-mode">
@@ -300,7 +302,8 @@
         </div>
       </div>
     </section>
-    <!-- ==================== قسم الاستماع إلى القرآن الكريم ==================== -->
+
+    <!-- ========== قسم استماع القرآن ========== -->
     <section id="quranAudioSection">
       <h2 class="section-title">
         <i class="fas fa-headphones" style="color: #2e7d32"></i>
@@ -323,9 +326,57 @@
             <i class="fas fa-microphone-alt"></i>
             <h3>اختر القارئ</h3>
           </div>
-          <div class="reciters-grid" id="recitersGrid">
-            <!-- القراء تتحط هنا بالجافاسكريبت -->
+
+          <!-- Dropdown لاختيار القارئ -->
+          <div class="reciter-selector">
+            <label>
+              <i class="fas fa-microphone-alt"></i>
+              <span>اختر القارئ</span>
+            </label>
+            <div class="custom-dropdown" id="reciterDropdown">
+              <div class="dropdown-selected" id="dropdownSelected">
+                <div class="selected-info">
+                  <i class="fas fa-microphone-alt"></i>
+                  <div>
+                    <div class="selected-text" id="selectedReciterText">
+                      اختر قارئاً
+                    </div>
+                    <div class="selected-style" id="selectedReciterStyle"></div>
+                  </div>
+                </div>
+                <i
+                  class="fas fa-chevron-down dropdown-icon"
+                  id="dropdownIcon"
+                ></i>
+              </div>
+              <div class="dropdown-menu" id="dropdownMenu">
+                <div class="dropdown-search">
+                  <input
+                    type="text"
+                    id="reciterSearchInput"
+                    placeholder="🔍 ابحث عن قارئ..."
+                  />
+                </div>
+                <div class="dropdown-items" id="dropdownItems">
+                  <!-- القراء يتحطوا هنا -->
+                </div>
+              </div>
+            </div>
           </div>
+
+          <!-- فلتر القراءات -->
+          <div class="recitation-filter">
+            <div class="filter-title">
+              <i class="fas fa-filter"></i>
+              <span>تصفية حسب الرواية</span>
+            </div>
+            <div class="filter-buttons" id="recitationFilters">
+              <!-- الأزرار تتحط هنا بالجافاسكريبت -->
+            </div>
+          </div>
+
+          <!-- شبكة القراء (كبديل) -->
+          <div class="reciters-grid" id="recitersGrid"></div>
         </div>
 
         <!-- بطاقة اختيار السورة -->
@@ -342,19 +393,17 @@
               placeholder="ابحث عن سورة..."
             />
           </div>
-          <div class="surahs-grid" id="surahsGrid">
-            <!-- السور تتحط هنا بالجافاسكريبت -->
-          </div>
+          <div class="surahs-grid" id="surahsGrid"></div>
         </div>
 
-        <!-- بطاقة المشغل (معدلة) -->
+        <!-- بطاقة المشغل -->
         <div class="audio-card player-card">
           <div class="audio-card-header">
             <i class="fas fa-play-circle"></i>
             <h3>المشغل</h3>
           </div>
 
-          <!-- 🆕 عداد السور -->
+          <!-- عداد السور -->
           <div class="surah-counter" id="surahCounter">
             <i class="fas fa-quran"></i>
             <span id="currentSurahNumber">0</span> /
@@ -362,7 +411,7 @@
           </div>
 
           <!-- معلومات السورة المختارة -->
-          <div class="selected-info" id="selectedInfo">
+          <div class="selected-info">
             <div class="surah-name" id="selectedSurahName">
               لم يتم اختيار سورة
             </div>
@@ -371,19 +420,12 @@
             </div>
           </div>
 
-          <!-- اختيار نطاق الآيات -->
-          <div class="ayah-range">
-            <div class="range-group">
-              <label>من آية</label>
-              <input type="number" id="startAyah" min="1" value="1" />
-            </div>
-            <div class="range-group">
-              <label>إلى آية</label>
-              <input type="number" id="endAyah" min="1" value="7" />
-            </div>
+          <!-- رسوم الهرتز (الموجات الصوتية) -->
+          <div class="visualizer-container">
+            <div class="audio-visualizer" id="audioVisualizer"></div>
           </div>
 
-          <!-- شريط التقدم العصري -->
+          <!-- شريط التقدم القابل للسحب -->
           <div class="progress-container">
             <div class="custom-progress-bar" id="progressBar">
               <div class="custom-progress-fill" id="progressFill"></div>
@@ -395,12 +437,7 @@
             </div>
           </div>
 
-          <!-- عرض الآية الحالية -->
-          <div class="current-ayah-container">
-            <span id="currentAyahDisplay" class="current-ayah-text"></span>
-          </div>
-
-          <!-- 🆕 أزرار التحكم المتطورة -->
+          <!-- أزرار التحكم -->
           <div class="player-controls">
             <button id="playBtn" class="control-btn" disabled>
               <i class="fas fa-play"></i> تشغيل
@@ -411,13 +448,9 @@
             <button id="repeatBtn" class="control-btn" disabled>
               <i class="fas fa-redo-alt"></i> إعادة
             </button>
-
-            <!-- 🆕 زر تكرار السورة (Loop) -->
             <button id="loopBtn" class="control-btn loop-btn" disabled>
               <i class="fas fa-infinity"></i> تكرار
             </button>
-
-            <!-- 🆕 زر السورة التالية -->
             <button id="nextSurahBtn" class="control-btn next-btn" disabled>
               <i class="fas fa-forward"></i> التالية
             </button>
@@ -451,6 +484,7 @@
       <div id="tajweedDisplay"></div>
     </section>
 
+  
     <!-- قسم موسوعة الحديث -->
     <section id="hadith">
       <h2 class="section-title">📚 موسوعة الحديث الشريف</h2>
@@ -702,9 +736,11 @@
                 ><i class="fas fa-chevron-left"></i> اقرأ القرآن</a
               >
             </li>
-             <li><a href="#quranAudioSection" id="quranAudioNavLink">
-    <i class="fas fa-chevron-left"></i> استمع إلى القرآن
-  </a></li>
+            <li>
+              <a href="#quranAudioSection" id="quranAudioNavLink">
+                <i class="fas fa-chevron-left"></i> استمع إلى القرآن
+              </a>
+            </li>
             <li>
               <a href="#tajweed" id="tajweedNavLink">
                 <i class="fas fa-chevron-left"></i> أحكام التجويد
@@ -799,6 +835,7 @@
 
     <!-- 5️⃣ الملف الرئيسي (آخر حاجة) -->
     <script src="quran-audio.js"></script>
+   
     <script src="app.js"></script>
   </body>
 </html>
