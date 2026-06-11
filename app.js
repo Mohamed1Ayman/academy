@@ -229,7 +229,7 @@ function navigateToQuiz(category) {
   // تمرير لقسم المسابقات
   const quizSection = document.getElementById('quiz');
   if (quizSection) {
-    quizSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+   // quizSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     
     // إضافة تأثير تمييز مؤقت
     quizSection.style.transition = 'all 0.5s ease';

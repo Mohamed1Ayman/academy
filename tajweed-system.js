@@ -83,6 +83,8 @@ function loadTajweedCategory(categoryKey) {
 // ==================== عرض الأبواب الفرعية ====================
 function displayChapters(category) {
   const container = document.getElementById("tajweedDisplay");
+  // في دالة displayChapters، بعد عرض الهيدر، أضف:
+
   
   let html = `
     <div class="tajweed-header">

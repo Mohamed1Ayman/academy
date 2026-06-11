@@ -33,10 +33,11 @@
     <link rel="stylesheet" href="azkar.css" />
     <link rel="stylesheet" href="quiz.css" />
     <link rel="stylesheet" href="contact.css" />
-    <link rel="stylesheet" href="hadith.css" />
+   
     <link rel="stylesheet" href="footer.css" />
     <link rel="stylesheet" href="quran-audio.css" />
-    
+   <link rel="stylesheet" href="grammar.css">
+   <link rel="stylesheet" href="nawawi.css">
     <link rel="stylesheet" href="style.css" />
   </head>
   <body class="light-mode">
@@ -77,7 +78,7 @@
             <ul class="dropdown-menu">
               <li>
                 <a href="#quran"
-                  ><i class="fas fa-book-open"></i> اقرأ القرآن</a
+                  ><i class="fas fa-book-open"></i> تعلم القرآن</a
                 >
               </li>
               <li>
@@ -91,9 +92,12 @@
                 </a>
               </li>
               <li>
-                <a href="#hadith"
-                  ><i class="fas fa-scroll"></i> موسوعة الحديث</a
+                <a href="#nawawi" >
+                  <i class="fas fa-scroll"></i> الاربعين النووية</a
                 >
+              </li>
+                <li>
+                <a href="#arabicGrammarSection"><i class="fas fa-book"></i> تعلم النحو</a>
               </li>
               <li>
                 <a href="#azkar"><i class="fas fa-hands"></i> الأذكار</a>
@@ -176,7 +180,7 @@
         <h1>أكاديمية اتكلم عربي</h1>
         <p class="sub-text">
           تحفيظ القرآن • تعلم اللغة العربية • القراءة والكتابة • النحو والإملاء
-          • اللغة الإنجليزية • الحساب
+          • العلوم الاسلامية
         </p>
         <p style="margin-top: 1rem" class="sub-text">
           للكبار والصغار - تعلم ممتع وتفاعلي
@@ -189,7 +193,7 @@
             ><i class="fab fa-facebook-f sub-text"></i
           ></a>
           <a
-            href="https://iwtsp.com/201065110667"
+            href="https://iwtsp.com/201100485047"
             target="_blank"
             class="sub-text"
             ><i class="fa-brands fa-whatsapp sub-text"></i
@@ -274,7 +278,7 @@
     </section>
     <!-- ========== قسم اقرأ القرآن ========== -->
     <section id="quran">
-      <h2 class="section-title">📖 اقرأ القرآن الكريم</h2>
+      <h2 class="section-title">📖 تعلم النطق الصحيح</h2>
       <p
         style="
           text-align: center;
@@ -282,7 +286,7 @@
           margin-bottom: 2rem;
         "
       >
-        اختر السورة التي تريد قراءتها من البحث
+        اختر السورة التي تريد تعلمها من البحث
       </p>
 
       <div class="quran-reader-container" id="quranReader">
@@ -296,8 +300,8 @@
               class="fas fa-quran"
               style="font-size: 5rem; color: #2e7d32; margin-bottom: 1rem"
             ></i>
-            <h3>اختر سورة من الأعلى لبدء القراءة</h3>
-            <p>يمكنك اختيار أي سورة وتحديد نطاق الآيات التي تريد قراءتها</p>
+            <h3>اختر سورة من الأعلى لبدء التعلم</h3>
+            <p>يمكنك اختيار أي سورة وتحديد نطاق الآيات التي تريد تعلمها</p>
           </div>
         </div>
       </div>
@@ -484,24 +488,88 @@
       <div id="tajweedDisplay"></div>
     </section>
 
-  
-    <!-- قسم موسوعة الحديث -->
-    <section id="hadith">
-      <h2 class="section-title">📚 موسوعة الحديث الشريف</h2>
-      <div class="quran-reader-container">
-        <div class="surah-selector" id="hadithSelector"></div>
-        <div class="quran-display" id="hadithDisplay">
-          <div class="quran-welcome">
-            <i
-              class="fas fa-scroll"
-              style="font-size: 5rem; color: #2e7d32"
-            ></i>
-            <h3>اختر كتاب الحديث من الأعلى</h3>
-            <p>تصفح الأحاديث النبوية الشريفة من كتب الحديث المعتمدة</p>
+  <!-- ========== قسم شرح الأربعين النووية ========== -->
+<section id="nawawi" class="nawawi-section">
+  <h2 class="section-title">
+    <i class="fas fa-scroll" style="color: #2e7d32"></i>
+    شرح الأربعين النووية
+  </h2>
+  <div class="nawawi-container" id="nawawiContainer"></div>
+</section>
+     
+
+<!-- ==================== قسم النحو العربي المتكامل ==================== -->
+<section id="arabicGrammarSection" class="grammar-main-section">
+  <h2 class="grammar-section-title">
+    <i class="fas fa-language" style="color: #2e7d32;"></i>
+    النحو العربي
+  </h2>
+  <p class="grammar-section-subtitle">
+    تعلم قواعد اللغة العربية من خلال شرح مبسط وأمثلة وتمارين تفاعلية
+  </p>
+
+  <div class="grammar-dashboard">
+    <!-- العمود الأيسر: قائمة الفصول -->
+    <div class="grammar-chapters-sidebar">
+      <div class="grammar-chapters-card">
+        <div class="grammar-chapters-header">
+          <i class="fas fa-list"></i>
+          <h3>فصول النحو</h3>
+        </div>
+        <div class="grammar-chapters-search">
+          <i class="fas fa-search"></i>
+          <input type="text" id="grammarSearchInput" placeholder="ابحث عن درس...">
+        </div>
+        <div class="grammar-chapters-list" id="grammarChaptersList">
+          <!-- الدروس ستظهر هنا -->
+        </div>
+      </div>
+    </div>
+
+    <!-- العمود الأوسط: عرض الدرس -->
+    <div class="grammar-lesson-area">
+      <div class="grammar-lesson-card">
+        <div class="grammar-lesson-header">
+          <i class="fas fa-book-open"></i>
+          <h3 id="grammarLessonTitle">اختر درساً من القائمة</h3>
+        </div>
+        
+        <!-- أزرار التنقل العلوية -->
+        <div class="grammar-nav-buttons" id="grammarNavButtons" style="display: none;">
+          <button id="grammarPrevBtn" class="grammar-nav-btn grammar-prev-btn">
+            <i class="fas fa-arrow-right"></i> الدرس السابق
+          </button>
+          <button id="grammarNextBtn" class="grammar-nav-btn grammar-next-btn">
+            الدرس التالي <i class="fas fa-arrow-left"></i>
+          </button>
+        </div>
+        
+        <div id="grammarLessonBody" class="grammar-lesson-body">
+          <div class="grammar-no-selection">
+            <i class="fas fa-hand-point-left"></i>
+            <p>اختر درساً من القائمة لعرض الشرح والأمثلة</p>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+
+    <!-- العمود الأيمن: الاختبارات -->
+    <div class="grammar-quiz-sidebar">
+      <div class="grammar-quiz-card">
+        <div class="grammar-quiz-header">
+          <i class="fas fa-question-circle"></i>
+          <h3>اختبر فهمك</h3>
+        </div>
+        <div id="grammarQuizContainer" class="grammar-quiz-container">
+          <div class="grammar-no-quiz">
+            <i class="fas fa-lightbulb"></i>
+            <p>اختر درساً لعرض التمارين</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
     <!-- ========== قسم الأذكار الجديد ========== -->
 
@@ -551,112 +619,112 @@
       <div id="azkarError" class="azkar-error" style="display: none"></div>
     </section>
 
-    <section id="quiz">
-      <h2 class="section-title">
-        <i class="fas fa-trophy" style="color: #ffd700"></i>
-        المسابقات والاختبارات
-      </h2>
-      <p
-        style="
-          text-align: center;
-          color: var(--text-secondary);
-          margin-bottom: 2rem;
-        "
-      >
-        اختبر معلوماتك في مختلف العلوم الإسلامية واللغوية
-      </p>
+      <section id="quiz">
+        <h2 class="section-title">
+          <i class="fas fa-trophy" style="color: #ffd700"></i>
+          المسابقات والاختبارات
+        </h2>
+        <p
+          style="
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+          "
+        >
+          اختبر معلوماتك في مختلف العلوم الإسلامية واللغوية
+        </p>
 
-      <!-- شبكة بطاقات المسابقات -->
-      <div class="quiz-categories-grid" id="quizzesCategoriesGrid">
-        <!-- البطاقات تتحط هنا بالجافاسكريبت -->
-      </div>
-
-      <!-- ===== اختيار المستوى (معدل مع إضافة زر الرجوع) ===== -->
-      <div class="level-selector" id="levelSelector" style="display: none">
-        <!-- ✅ زر الرجوع للمسابقات - أضيفي هذا الزر -->
-        <button class="back-to-quizzes-level-btn" id="backToQuizzesFromLevel">
-          <i class="fas fa-arrow-right"></i>
-          جميع المسابقات
-        </button>
-
-        <h3 id="selectedQuizTitle">
-          <i class="fas fa-chart-line"></i>
-          اختار مستوى الصعوبة
-        </h3>
-        <p>كلما زاد المستوى، زادت صعوبة الأسئلة</p>
-
-        <div class="level-buttons">
-          <button class="level-btn easy" data-level="easy">
-            <i class="fa-regular fa-face-laugh"></i> سهل
-            <span style="font-size: 0.7rem">⭐</span>
-          </button>
-          <button class="level-btn medium active" data-level="medium">
-            <i class="fa-solid fa-star"></i> متوسط
-            <span style="font-size: 0.7rem">⭐⭐</span>
-          </button>
-          <button class="level-btn hard" data-level="hard">
-            <i class="fa-solid fa-fire"></i> صعب
-            <span style="font-size: 0.7rem">⭐⭐⭐</span>
-          </button>
+        <!-- شبكة بطاقات المسابقات -->
+        <div class="quiz-categories-grid" id="quizzesCategoriesGrid">
+          <!-- البطاقات تتحط هنا بالجافاسكريبت -->
         </div>
 
-        <button class="start-quiz-btn" id="startQuizBtn">
-          <i class="fa-solid fa-rocket"></i> ابدأ المسابقة
-        </button>
-      </div>
-
-      <!-- حاوية المسابقة -->
-      <div class="quiz-container" id="quizContainer" style="display: none">
-        <div class="quiz-header">
-          <button class="back-to-quizzes-btn" id="backToQuizzesBtn">
+        <!-- ===== اختيار المستوى (معدل مع إضافة زر الرجوع) ===== -->
+        <div class="level-selector" id="levelSelector" style="display: none">
+          <!-- ✅ زر الرجوع للمسابقات - أضيفي هذا الزر -->
+          <button class="back-to-quizzes-level-btn" id="backToQuizzesFromLevel">
             <i class="fas fa-arrow-right"></i>
             جميع المسابقات
           </button>
-          <h3 id="quizTitle">مسابقة</h3>
-          <div
-            class="quiz-level-badge"
-            id="quizLevelBadge"
-            style="display: none"
-          ></div>
-        </div>
 
-        <div class="progress-bar">
-          <div class="progress-fill" id="quizProgress" style="width: 0%"></div>
-        </div>
+          <h3 id="selectedQuizTitle">
+            <i class="fas fa-chart-line"></i>
+            اختار مستوى الصعوبة
+          </h3>
+          <p>كلما زاد المستوى، زادت صعوبة الأسئلة</p>
 
-        <div id="quizQuestion" class="question-text"></div>
-
-        <div class="options" id="quizOptions"></div>
-
-        <div class="quiz-footer">
-          <span id="quizCounter">السؤال 1 / 0</span>
-          <div>
-            <button class="btn" id="quizPrev" style="display: none">
-              <i class="fas fa-arrow-right"></i> السابق
+          <div class="level-buttons">
+            <button class="level-btn easy" data-level="easy">
+              <i class="fa-regular fa-face-laugh"></i> سهل
+              <span style="font-size: 0.7rem">⭐</span>
             </button>
-            <button class="btn" id="quizNext">
-              التالي <i class="fas fa-arrow-left"></i>
+            <button class="level-btn medium active" data-level="medium">
+              <i class="fa-solid fa-star"></i> متوسط
+              <span style="font-size: 0.7rem">⭐⭐</span>
+            </button>
+            <button class="level-btn hard" data-level="hard">
+              <i class="fa-solid fa-fire"></i> صعب
+              <span style="font-size: 0.7rem">⭐⭐⭐</span>
+            </button>
+          </div>
+
+          <button class="start-quiz-btn" id="startQuizBtn">
+            <i class="fa-solid fa-rocket"></i> ابدأ المسابقة
+          </button>
+        </div>
+
+        <!-- حاوية المسابقة -->
+        <div class="quiz-container" id="quizContainer" style="display: none">
+          <div class="quiz-header">
+            <button class="back-to-quizzes-btn" id="backToQuizzesBtn">
+              <i class="fas fa-arrow-right"></i>
+              جميع المسابقات
+            </button>
+            <h3 id="quizTitle">مسابقة</h3>
+            <div
+              class="quiz-level-badge"
+              id="quizLevelBadge"
+              style="display: none"
+            ></div>
+          </div>
+
+          <div class="progress-bar">
+            <div class="progress-fill" id="quizProgress" style="width: 0%"></div>
+          </div>
+
+          <div id="quizQuestion" class="question-text"></div>
+
+          <div class="options" id="quizOptions"></div>
+
+          <div class="quiz-footer">
+            <span id="quizCounter">السؤال 1 / 0</span>
+            <div>
+              <button class="btn" id="quizPrev" style="display: none">
+                <i class="fas fa-arrow-right"></i> السابق
+              </button>
+              <button class="btn" id="quizNext">
+                التالي <i class="fas fa-arrow-left"></i>
+              </button>
+            </div>
+          </div>
+
+          <div id="quizResult" class="result" style="display: none"></div>
+
+          <div
+            style="
+              display: flex;
+              gap: 1rem;
+              justify-content: center;
+              margin-top: 1rem;
+              flex-wrap: wrap;
+            "
+          >
+            <button class="btn" id="quizReset" style="background: #666">
+              <i class="fa-solid fa-arrow-rotate-left"></i> إعادة المحاولة
             </button>
           </div>
         </div>
-
-        <div id="quizResult" class="result" style="display: none"></div>
-
-        <div
-          style="
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 1rem;
-            flex-wrap: wrap;
-          "
-        >
-          <button class="btn" id="quizReset" style="background: #666">
-            <i class="fa-solid fa-arrow-rotate-left"></i> إعادة المحاولة
-          </button>
-        </div>
-      </div>
-    </section>
+      </section>
 
     <section id="contact">
       <h2 class="section-title">تواصل معنا</h2>
@@ -696,7 +764,7 @@
               ><i class="fab fa-facebook-f"></i
             ></a>
             <a
-              href="https://iwtsp.com/201065110667"
+              href="https://iwtsp.com/201100485047"
               class="social-link"
               target="_blank"
               ><i class="fab fa-whatsapp"></i
@@ -733,7 +801,7 @@
           <ul class="footer-links">
             <li>
               <a href="#quran"
-                ><i class="fas fa-chevron-left"></i> اقرأ القرآن</a
+                ><i class="fas fa-chevron-left"></i> تعلم القرآن</a
               >
             </li>
             <li>
@@ -752,10 +820,16 @@
               >
             </li>
             <li>
-              <a href="#hadith"
-                ><i class="fas fa-chevron-left"></i> موسوعة الحديث</a
+              <a href="#nawawi" id="nawawiNavLink"
+                ><i class="fas fa-chevron-left"></i> الاربعين النووية</a
               >
             </li>
+             <li>
+              <a href="#arabicGrammarSection"
+                ><i class="fas fa-chevron-left"></i>تعلم النحو </a
+              >
+            </li>
+           
             <li>
               <a href="#prayerTimes"
                 ><i class="fas fa-chevron-left"></i> مواقيت الصلاة</a
@@ -815,13 +889,17 @@
     <!-- 1️⃣ البيانات أولاً -->
     <script src="azkar-data.js"></script>
     <script src="tajweed-data.js"></script>
+    <script src="nawawi-data.js"></script>
 
     <!-- 2️⃣ النظم الأساسية -->
     <script src="prayer-times.js"></script>
+   <script src="nawawi.js" defer></script>
     <script src="quran-reader.js"></script>
-    <script src="hadith-system.js"></script>
+ 
     <script src="azkar-system.js"></script>
     <script src="tajweed-system.js"></script>
+    
+
 
     <!-- 4️⃣ بيانات الاختبارات -->
     <script src="aqeeda-quiz.js"></script>
@@ -832,9 +910,11 @@
 
     <!-- 3️⃣ نظام المسابقات -->
     <script src="quiz-system.js"></script>
+    <script src="arabic-grammar.js"></script>
 
     <!-- 5️⃣ الملف الرئيسي (آخر حاجة) -->
     <script src="quran-audio.js"></script>
+    
    
     <script src="app.js"></script>
   </body>

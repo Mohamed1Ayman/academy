@@ -69,7 +69,7 @@ async function fetchPrayerTimes() {
     prayerContainer.innerHTML = `
       <div class="prayer-error">
         <i class="fas fa-exclamation-triangle"></i>
-        <p>تعذر تحميل مواقيت الصلاة</p>
+        <p>لا يوجد اتصال بالشبكة</p>
         <button onclick="fetchPrayerTimes()" class="prayer-retry-btn">
           <i class="fas fa-redo"></i> إعادة المحاولة
         </button>

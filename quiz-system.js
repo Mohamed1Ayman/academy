@@ -1,7 +1,7 @@
 // ==================== نظام المسابقات الموحد والمتطور ====================
 // أكاديمية اتكلم عربي
 
-// ==================== البيانات ====================
+// ==================== البيانات مع إضافة الشرح (explanation) ====================
 const allQuestions = {
   quran: {
     label: "القرآن الكريم",
@@ -11,40 +11,40 @@ const allQuestions = {
     color: "#2e7d32",
     data: {
       easy: [
-        { text: "ما هي أول سورة في القرآن؟", options: ["الفاتحة", "البقرة", "الإخلاص", "الناس"], correct: 0 },
-        { text: "كم عدد السور في القرآن؟", options: ["110", "114", "120", "100"], correct: 1 },
-        { text: "ما هي السورة التي تسمى 'قل هو الله أحد'؟", options: ["الفلق", "الناس", "الإخلاص", "الكوثر"], correct: 2 },
-        { text: "من هو رسول الله؟", options: ["محمد", "موسى", "عيسى", "إبراهيم"], correct: 0 },
-        { text: "ما اسم والد النبي محمد؟", options: ["عبد الله", "أبو طالب", "عبد المطلب", "أبو لهب"], correct: 0 },
-        { text: "ما هي السورة التي تبدأ بـ 'الحمد لله'؟", options: ["الإخلاص", "الفاتحة", "الناس", "الفلق"], correct: 1 },
-        { text: "كم عدد أجزاء القرآن؟", options: ["20", "25", "30", "35"], correct: 2 },
-        { text: "أطول سورة في القرآن هي؟", options: ["آل عمران", "البقرة", "النساء", "المائدة"], correct: 1 },
-        { text: "ما هي أول كلمة نزلت من القرآن؟", options: ["الحمد", "بسم", "اقرأ", "قل"], correct: 2 },
-        { text: "من هو أول الخلفاء الراشدين؟", options: ["عمر", "عثمان", "علي", "أبو بكر"], correct: 3 },
+        { text: "ما هي أول سورة في القرآن؟", options: ["الفاتحة", "البقرة", "الإخلاص", "الناس"], correct: 0, explanation: "سورة الفاتحة هي أول سورة في القرآن الكريم، وتسمى أيضاً أم الكتاب والسبع المثاني." },
+        { text: "كم عدد السور في القرآن؟", options: ["110", "114", "120", "100"], correct: 1, explanation: "عدد سور القرآن الكريم 114 سورة، تبدأ بسورة الفاتحة وتنتهي بسورة الناس." },
+        { text: "ما هي السورة التي تسمى 'قل هو الله أحد'؟", options: ["الفلق", "الناس", "الإخلاص", "الكوثر"], correct: 2, explanation: "سورة الإخلاص هي السورة التي تبدأ بـ 'قل هو الله أحد'، وهي تعدل ثلث القرآن." },
+        { text: "من هو رسول الله؟", options: ["محمد", "موسى", "عيسى", "إبراهيم"], correct: 0, explanation: "محمد بن عبد الله هو خاتم الأنبياء والمرسلين، أرسله الله رحمة للعالمين." },
+        { text: "ما اسم والد النبي محمد؟", options: ["عبد الله", "أبو طالب", "عبد المطلب", "أبو لهب"], correct: 0, explanation: "والد النبي محمد هو عبد الله بن عبد المطلب، توفي قبل ولادة النبي." },
+        { text: "ما هي السورة التي تبدأ بـ 'الحمد لله'؟", options: ["الإخلاص", "الفاتحة", "الناس", "الفلق"], correct: 1, explanation: "سورة الفاتحة تبدأ بـ 'الحمد لله رب العالمين'، وهي من أعظم سور القرآن." },
+        { text: "كم عدد أجزاء القرآن؟", options: ["20", "25", "30", "35"], correct: 2, explanation: "القرآن الكريم مقسم إلى 30 جزءاً لتسهيل قراءته في شهر رمضان." },
+        { text: "أطول سورة في القرآن هي؟", options: ["آل عمران", "البقرة", "النساء", "المائدة"], correct: 1, explanation: "سورة البقرة هي أطول سورة في القرآن، عدد آياتها 286 آية." },
+        { text: "ما هي أول كلمة نزلت من القرآن؟", options: ["الحمد", "بسم", "اقرأ", "قل"], correct: 2, explanation: "أول كلمة نزلت من القرآن هي 'اقرأ' من سورة العلق." },
+        { text: "من هو أول الخلفاء الراشدين؟", options: ["عمر", "عثمان", "علي", "أبو بكر"], correct: 3, explanation: "أبو بكر الصديق هو أول الخلفاء الراشدين بعد وفاة النبي محمد." },
       ],
       medium: [
-        { text: "ما هي السورة التي ليس فيها بسم الله الرحمن الرحيم؟", options: ["الفاتحة", "التوبة", "الإخلاص", "الفلق"], correct: 1 },
-        { text: "كم سجدة تلاوة في القرآن؟", options: ["12", "14", "15", "10"], correct: 2 },
-        { text: "ما هي أعظم آية في القرآن؟", options: ["آية الكرسي", "آية النور", "آية الدين", "آية الميراث"], correct: 0 },
-        { text: "ما معنى اسم الله 'الرحمن'؟", options: ["الشديد العقاب", "الواسع الرحمة", "الغفور", "العزيز"], correct: 1 },
-        { text: "من هو كاتب الوحي الذي لقب بترجمان القرآن؟", options: ["علي بن أبي طالب", "عبد الله بن عباس", "زيد بن ثابت", "عبد الله بن مسعود"], correct: 1 },
-        { text: "ما هي السورة التي تسمى 'عروس القرآن'؟", options: ["الرحمن", "يس", "الواقعة", "الملك"], correct: 0 },
-        { text: "أين نزلت سورة الفاتحة؟", options: ["المدينة", "مكة", "الطائف", "بدر"], correct: 1 },
-        { text: "ما هو اسم جبريل عليه السلام في القرآن؟", options: ["الروح الأمين", "ميكائيل", "عزرائيل", "إسرافيل"], correct: 0 },
-        { text: "كم مرة ذكر اسم 'محمد' في القرآن؟", options: ["3", "4", "5", "6"], correct: 1 },
-        { text: "ما هي السورة التي تسمى 'قلب القرآن'؟", options: ["الفاتحة", "يس", "الملك", "الواقعة"], correct: 1 },
+        { text: "ما هي السورة التي ليس فيها بسم الله الرحمن الرحيم؟", options: ["الفاتحة", "التوبة", "الإخلاص", "الفلق"], correct: 1, explanation: "سورة التوبة هي السورة الوحيدة في القرآن التي لا تبدأ بالبسملة." },
+        { text: "كم سجدة تلاوة في القرآن؟", options: ["12", "14", "15", "10"], correct: 2, explanation: "يوجد 15 موضع سجدة تلاوة في القرآن الكريم." },
+        { text: "ما هي أعظم آية في القرآن؟", options: ["آية الكرسي", "آية النور", "آية الدين", "آية الميراث"], correct: 0, explanation: "آية الكرسي هي أعظم آية في القرآن، وتوجد في سورة البقرة." },
+        { text: "ما معنى اسم الله 'الرحمن'؟", options: ["الشديد العقاب", "الواسع الرحمة", "الغفور", "العزيز"], correct: 1, explanation: "الرحمن: ذو الرحمة الواسعة التي تشمل جميع الخلائق." },
+        { text: "من هو كاتب الوحي الذي لقب بترجمان القرآن؟", options: ["علي بن أبي طالب", "عبد الله بن عباس", "زيد بن ثابت", "عبد الله بن مسعود"], correct: 1, explanation: "عبد الله بن عباس لقب بترجمان القرآن لعلمه الغزير في التفسير." },
+        { text: "ما هي السورة التي تسمى 'عروس القرآن'؟", options: ["الرحمن", "يس", "الواقعة", "الملك"], correct: 0, explanation: "سورة الرحمن تسمى 'عروس القرآن' لجمالها وروعتها." },
+        { text: "أين نزلت سورة الفاتحة؟", options: ["المدينة", "مكة", "الطائف", "بدر"], correct: 1, explanation: "سورة الفاتحة نزلت في مكة المكرمة." },
+        { text: "ما هو اسم جبريل عليه السلام في القرآن؟", options: ["الروح الأمين", "ميكائيل", "عزرائيل", "إسرافيل"], correct: 0, explanation: "جبريل عليه السلام يسمى في القرآن 'الروح الأمين' و 'الروح القدس'." },
+        { text: "كم مرة ذكر اسم 'محمد' في القرآن؟", options: ["3", "4", "5", "6"], correct: 1, explanation: "ذكر اسم 'محمد' في القرآن 4 مرات." },
+        { text: "ما هي السورة التي تسمى 'قلب القرآن'؟", options: ["الفاتحة", "يس", "الملك", "الواقعة"], correct: 1, explanation: "سورة يس تسمى 'قلب القرآن' لعظم شأنها." },
       ],
       hard: [
-        { text: "ما معنى 'الصمد' في سورة الإخلاص؟", options: ["الذي لا يحتاج لأحد", "الذي يصمد أمام الأعداء", "الذي لا يأكل", "الذي لا يشرب"], correct: 0 },
-        { text: "ما تفسير 'الضالين' في الفاتحة؟", options: ["الذين ضلوا عن الحق", "الذين ضلوا الطريق", "النصارى", "اليهود"], correct: 2 },
-        { text: "ما هي 'السبع المثاني'؟", options: ["الفاتحة", "البقرة", "آل عمران", "يس"], correct: 0 },
-        { text: "ما هو 'السموم' في سورة الطور؟", options: ["نار جهنم", "الجنة", "الملائكة", "الصبح"], correct: 0 },
-        { text: "كم مرة ورد اسم جبريل عليه السلام في القرآن؟", options: ["10 مرات", "7 مرات", "4 مرات", "3 مرات"], correct: 3 },
-        { text: "تفسير 'وأنذر عشيرتك الأقربين' نزلت في؟", options: ["دعوة قريش", "دعوة أهل مكة", "دعوة بني هاشم", "دعوة العرب"], correct: 2 },
-        { text: "ما معنى 'الرهبان' في سورة المائدة؟", options: ["عباد المسيح", "كهنة اليهود", "علماء المسلمين", "الزهاد"], correct: 0 },
-        { text: "تفسير 'كلا إن كتاب الفجار لفي سجين' سجين هي؟", options: ["مكان تحت الأرض", "سجن في جهنم", "كتاب مرقوم", "واد في جهنم"], correct: 3 },
-        { text: "ما معنى 'الروح' في القرآن؟", options: ["جبريل", "القرآن", "الروح القدس", "كل ما سبق"], correct: 3 },
-        { text: "ما هي السورة التي ليس فيها 'بسم الله' وفيها ذكر القتال؟", options: ["الأنفال", "التوبة", "الحديد", "الحشر"], correct: 1 },
+        { text: "ما معنى 'الصمد' في سورة الإخلاص؟", options: ["الذي لا يحتاج لأحد", "الذي يصمد أمام الأعداء", "الذي لا يأكل", "الذي لا يشرب"], correct: 0, explanation: "الصمد هو الذي يقصده الخلق في حوائجهم، وهو الغني عن كل شيء." },
+        { text: "ما تفسير 'الضالين' في الفاتحة؟", options: ["الذين ضلوا عن الحق", "الذين ضلوا الطريق", "النصارى", "اليهود"], correct: 2, explanation: "الضالين هم النصارى الذين ضلوا عن طريق الحق." },
+        { text: "ما هي 'السبع المثاني'؟", options: ["الفاتحة", "البقرة", "آل عمران", "يس"], correct: 0, explanation: "السبع المثاني هي سورة الفاتحة، وتسمى بذلك لتكررها في كل صلاة." },
+        { text: "ما هو 'السموم' في سورة الطور؟", options: ["نار جهنم", "الجنة", "الملائكة", "الصبح"], correct: 0, explanation: "السموم هو نار جهنم الحارة التي تنفذ إلى المسام." },
+        { text: "كم مرة ورد اسم جبريل عليه السلام في القرآن؟", options: ["10 مرات", "7 مرات", "4 مرات", "3 مرات"], correct: 3, explanation: "ورد اسم جبريل عليه السلام في القرآن 3 مرات." },
+        { text: "تفسير 'وأنذر عشيرتك الأقربين' نزلت في؟", options: ["دعوة قريش", "دعوة أهل مكة", "دعوة بني هاشم", "دعوة العرب"], correct: 2, explanation: "نزلت الآية في دعوة بني هاشم أقارب النبي." },
+        { text: "ما معنى 'الرهبان' في سورة المائدة؟", options: ["عباد المسيح", "كهنة اليهود", "علماء المسلمين", "الزهاد"], correct: 0, explanation: "الرهبان هم عباد المسيح الذين تفرغوا للعبادة." },
+        { text: "تفسير 'كلا إن كتاب الفجار لفي سجين' سجين هي؟", options: ["مكان تحت الأرض", "سجن في جهنم", "كتاب مرقوم", "واد في جهنم"], correct: 3, explanation: "سجين هو وادٍ في جهنم تسيل فيه صديد أهل النار." },
+        { text: "ما معنى 'الروح' في القرآن؟", options: ["جبريل", "القرآن", "الروح القدس", "كل ما سبق"], correct: 3, explanation: "الروح في القرآن تطلق على جبريل والقرآن والروح القدس." },
+        { text: "ما هي السورة التي ليس فيها 'بسم الله' وفيها ذكر القتال؟", options: ["الأنفال", "التوبة", "الحديد", "الحشر"], correct: 1, explanation: "سورة التوبة هي السورة الوحيدة التي لا تبدأ بالبسملة وفيها أحكام القتال." },
       ],
     },
   },
@@ -125,13 +125,16 @@ const startQuizBtn = document.getElementById("startQuizBtn");
 function displayQuizzesCategories() {
   if (!quizzesCategoriesGrid) return;
   
+  // تنظيف المحتوى القديم
   quizzesCategoriesGrid.innerHTML = "";
   
-  Object.keys(allQuestions).forEach(key => {
+  // إنشاء البطاقات
+  Object.keys(allQuestions).forEach((key, index) => {
     const quiz = allQuestions[key];
     const card = document.createElement("div");
     card.className = "quiz-category-card";
     card.setAttribute("data-category", key);
+    card.style.setProperty('--card-index', index);
     
     card.innerHTML = `
       <div class="quiz-card-icon" style="background: linear-gradient(135deg, ${quiz.color}, ${quiz.color}dd);">
@@ -152,11 +155,24 @@ function displayQuizzesCategories() {
       </div>
     `;
     
-    card.addEventListener("click", () => {
+    card.addEventListener("click", (e) => {
+      e.stopPropagation();
       selectQuizCategory(key);
     });
     
     quizzesCategoriesGrid.appendChild(card);
+  });
+  
+  // ✨ إضافة أنيميشن ظهور للبطاقات
+  const cards = document.querySelectorAll(".quiz-category-card");
+  cards.forEach((card, idx) => {
+    card.style.opacity = "0";
+    card.style.transform = "translateY(30px)";
+    setTimeout(() => {
+      card.style.transition = "all 0.4s cubic-bezier(0.34, 1.2, 0.64, 1)";
+      card.style.opacity = "1";
+      card.style.transform = "translateY(0)";
+    }, idx * 50);
   });
 }
 
@@ -261,7 +277,8 @@ function generateMathQuestions(op, level) {
     questions.push({
       text: text,
       options: optionsArray.map(o => o.toString()),
-      correct: optionsArray.indexOf(answer)
+      correct: optionsArray.indexOf(answer),
+      explanation: `الحل الصحيح: ${n1} ${op === 'addition' ? '+' : op === 'subtraction' ? '-' : op === 'multiplication' ? '×' : '÷'} ${op === 'division' ? answer : n2} = ${answer}`
     });
   }
   
@@ -282,14 +299,29 @@ function selectQuizCategory(categoryKey) {
     if (btn.dataset.level === "medium") btn.classList.add("active");
   });
   
-  // إخفاء شبكة المسابقات
-  if (quizzesCategoriesGrid) quizzesCategoriesGrid.style.display = "none";
+  // ✨ أنيميشن إخفاء الشبكة (وليس حذفها)
+  if (quizzesCategoriesGrid) {
+    quizzesCategoriesGrid.style.transition = "all 0.3s ease";
+    quizzesCategoriesGrid.style.opacity = "0";
+    quizzesCategoriesGrid.style.transform = "scale(0.95)";
+    
+    setTimeout(() => {
+      quizzesCategoriesGrid.style.display = "none";
+    }, 300);
+  }
   
-  // إظهار اختيار المستوى
+  // ✨ إظهار اختيار المستوى
   if (levelSelector) {
     levelSelector.style.display = "block";
+    levelSelector.style.opacity = "0";
+    levelSelector.style.transform = "translateY(20px)";
     
-    // تحديث عنوان المسابقة المختارة
+    setTimeout(() => {
+      levelSelector.style.transition = "all 0.3s ease";
+      levelSelector.style.opacity = "1";
+      levelSelector.style.transform = "translateY(0)";
+    }, 50);
+    
     const titleElem = document.getElementById("selectedQuizTitle");
     if (titleElem) {
       titleElem.innerHTML = `
@@ -299,16 +331,24 @@ function selectQuizCategory(categoryKey) {
     }
   }
   
-  // إخفاء حاوية المسابقة إذا كانت ظاهرة
+  // إخفاء حاوية المسابقة
   if (quizContainer) quizContainer.style.display = "none";
   
-  // إضافة محدد العملية الحسابية إذا كانت المسابقة حساب
+  // إضافة محدد العملية الحسابية
   if (categoryKey === "math") {
     addMathOperationSelector();
   } else {
     const opSelector = document.querySelector(".math-operation-selector");
     if (opSelector) opSelector.remove();
   }
+  
+  // التمرير
+  setTimeout(() => {
+    const quizSection = document.getElementById('quiz');
+    if (quizSection) {
+      quizSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, 100);
 }
 
 // ==================== بدء المسابقة ====================
@@ -356,7 +396,23 @@ function startQuiz() {
   
   if (quizPrev) quizPrev.style.display = "inline-flex";
   
+  // إزالة أي رسالة شرح قديمة
+  const oldFeedback = document.getElementById("quizFeedback");
+  if (oldFeedback) oldFeedback.remove();
+  
   loadQuestion();
+  
+  // 🎯 التمرير إلى أعلى قسم المسابقات
+  setTimeout(() => {
+    const quizSection = document.getElementById('quiz');
+    if (quizSection) {
+      quizSection.scrollIntoView({ 
+        behavior: "smooth", 
+        block: "start",
+        inline: "nearest"
+      });
+    }
+  }, 100);
 }
 
 // ==================== تحميل السؤال ====================
@@ -390,6 +446,10 @@ function loadQuestion() {
     });
   }
   
+  // إزالة رسالة الشرح القديمة إذا وجدت
+  const oldFeedback = document.getElementById("quizFeedback");
+  if (oldFeedback) oldFeedback.remove();
+  
   updateProgress();
   
   if (quizPrev) quizPrev.disabled = quizState.currentIndex === 0;
@@ -400,7 +460,7 @@ function loadQuestion() {
   }
 }
 
-// ==================== اختيار الإجابة ====================
+// ==================== اختيار الإجابة مع خاصية الشرح (بدون تمرير تلقائي) ====================
 function selectAnswer(selectedIndex) {
   if (quizState.answerLocked) return;
   
@@ -422,13 +482,68 @@ function selectAnswer(selectedIndex) {
     }
   });
   
-  const feedback = isCorrect 
-    ? '<span style="color: #4caf50;"><i class="fas fa-check-circle"></i> إجابة صحيحة! ✓</span>'
-    : `<span style="color: #f44336;"><i class="fas fa-times-circle"></i> خطأ! الإجابة الصحيحة: ${q.options[q.correct]}</span>`;
+  // إنشاء رسالة الشرح
+  const correctLetter = ["أ", "ب", "ج", "د"][q.correct];
+  const correctAnswerText = q.options[q.correct];
   
-  if (quizQuestion) {
-    quizQuestion.innerHTML = `<i class="fas fa-question-circle" style="color: #2e7d32;"></i> ${q.text}<br><br><div style="font-size: 0.9rem; margin-top: 0.5rem;">${feedback}</div>`;
+  let feedbackHtml = "";
+  if (isCorrect) {
+    feedbackHtml = `
+      <div id="quizFeedback" style="margin-top: 1.5rem; padding: 1rem; border-radius: 16px; background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.05)); border-right: 4px solid #4caf50; text-align: center;">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 0.8rem; flex-wrap: wrap;">
+          <span style="background: #4caf50; color: white; padding: 0.5rem 1rem; border-radius: 50px; display: inline-flex; align-items: center; gap: 0.5rem;">
+            <i class="fas fa-check-circle"></i> ✅ إجابة صحيحة!
+          </span>
+          <span style="color: var(--text-primary);">
+            📖 ${q.explanation || "أحسنت! هذه هي الإجابة الصحيحة."}
+          </span>
+        </div>
+      </div>
+    `;
+  } else {
+    feedbackHtml = `
+      <div id="quizFeedback" style="margin-top: 1.5rem; padding: 1rem; border-radius: 16px; background: linear-gradient(135deg, rgba(244, 67, 54, 0.1), rgba(244, 67, 54, 0.05)); border-right: 4px solid #f44336;">
+        <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+          <div style="display: flex; align-items: center; justify-content: center; gap: 0.8rem; flex-wrap: wrap;">
+            <span style="background: #f44336; color: white; padding: 0.5rem 1rem; border-radius: 50px; display: inline-flex; align-items: center; gap: 0.5rem;">
+              <i class="fas fa-times-circle"></i> ❌ إجابة خاطئة!
+            </span>
+            <span style="background: #4caf50; color: white; padding: 0.5rem 1rem; border-radius: 50px; display: inline-flex; align-items: center; gap: 0.5rem;">
+              <i class="fas fa-check-circle"></i> الإجابة الصحيحة: ${correctLetter} - "${correctAnswerText}"
+            </span>
+          </div>
+          <div style="color: var(--text-primary); padding: 0.5rem; text-align: center;">
+            📖 ${q.explanation || "راجع المادة مرة أخرى لتتعلم الإجابة الصحيحة."}
+          </div>
+        </div>
+      </div>
+    `;
   }
+  
+  // إضافة رسالة الشرح بعد الخيارات
+  if (quizOptions && quizOptions.parentNode) {
+    const oldFeedback = document.getElementById("quizFeedback");
+    if (oldFeedback) oldFeedback.remove();
+    quizOptions.insertAdjacentHTML('afterend', feedbackHtml);
+  }
+  
+  // 🎯 فقط تغيير شكل زر التالي (بدون تمرير!)
+  if (quizNext) {
+    quizNext.style.background = "linear-gradient(135deg, #2e7d32, #1b5e20)";
+    quizNext.style.transform = "scale(1.02)";
+    quizNext.style.transition = "all 0.3s ease";
+    
+    // إزالة تأثير التمرير التلقائي
+    setTimeout(() => {
+      if (quizNext) {
+        quizNext.style.background = "";
+        quizNext.style.transform = "";
+      }
+    }, 500);
+  }
+  
+  // ❌ تم إزالة السطر الذي كان يقوم بالتمرير:
+  // quizNext.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
 // ==================== السؤال التالي ====================
@@ -516,12 +631,48 @@ function resetQuiz() {
 
 // ==================== الرجوع لقائمة المسابقات من داخل المسابقة ====================
 function backToQuizzes() {
+  // ✨ إخفاء المسابقة
   if (quizContainer) {
-    quizContainer.style.display = "none";
-    quizContainer.classList.remove("active");
+    quizContainer.style.transition = "all 0.3s ease";
+    quizContainer.style.opacity = "0";
+    quizContainer.style.transform = "scale(0.95)";
+    
+    setTimeout(() => {
+      quizContainer.style.display = "none";
+      quizContainer.classList.remove("active");
+      quizContainer.style.opacity = "1";
+      quizContainer.style.transform = "scale(1)";
+    }, 300);
   }
   
-  if (quizzesCategoriesGrid) quizzesCategoriesGrid.style.display = "grid";
+  // ✨ إظهار شبكة المسابقات
+  if (quizzesCategoriesGrid) {
+    quizzesCategoriesGrid.style.display = "grid";
+    quizzesCategoriesGrid.style.opacity = "0";
+    quizzesCategoriesGrid.style.transform = "scale(0.95)";
+    
+    const cards = document.querySelectorAll(".quiz-category-card");
+    cards.forEach(card => {
+      card.style.opacity = "0";
+      card.style.transform = "translateY(30px)";
+      card.style.transition = "";
+    });
+    
+    setTimeout(() => {
+      quizzesCategoriesGrid.style.transition = "all 0.4s ease";
+      quizzesCategoriesGrid.style.opacity = "1";
+      quizzesCategoriesGrid.style.transform = "scale(1)";
+      
+      cards.forEach((card, idx) => {
+        setTimeout(() => {
+          card.style.transition = "all 0.4s cubic-bezier(0.34, 1.2, 0.64, 1)";
+          card.style.opacity = "1";
+          card.style.transform = "translateY(0)";
+        }, idx * 60);
+      });
+    }, 50);
+  }
+  
   if (levelSelector) levelSelector.style.display = "none";
   
   quizState.quizStarted = false;
@@ -539,23 +690,74 @@ function backToQuizzes() {
   
   const opSelector = document.querySelector(".math-operation-selector");
   if (opSelector) opSelector.remove();
+  
+  const oldFeedback = document.getElementById("quizFeedback");
+  if (oldFeedback) oldFeedback.remove();
+  
+  setTimeout(() => {
+    const quizSection = document.getElementById('quiz');
+    if (quizSection) {
+      quizSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, 150);
 }
 
 // ==================== زر الرجوع من اختيار المستوى ====================
 function backToQuizzesFromLevel() {
-  // إخفاء اختيار المستوى
-  if (levelSelector) levelSelector.style.display = "none";
+  // ✨ إخفاء اختيار المستوى
+  if (levelSelector) {
+    levelSelector.style.transition = "all 0.3s ease";
+    levelSelector.style.opacity = "0";
+    levelSelector.style.transform = "translateY(-20px)";
+    
+    setTimeout(() => {
+      levelSelector.style.display = "none";
+      levelSelector.style.opacity = "1";
+      levelSelector.style.transform = "translateY(0)";
+    }, 300);
+  }
   
-  // إظهار شبكة المسابقات
-  if (quizzesCategoriesGrid) quizzesCategoriesGrid.style.display = "grid";
+  // ✨ إظهار شبكة المسابقات مع إعادة ضبط البطاقات
+  if (quizzesCategoriesGrid) {
+    // أولاً: جعل الشبكة مرئية
+    quizzesCategoriesGrid.style.display = "grid";
+    quizzesCategoriesGrid.style.opacity = "0";
+    quizzesCategoriesGrid.style.transform = "scale(0.95)";
+    
+    // ثانياً: إعادة ضبط جميع البطاقات (إزالة أي تأثيرات سابقة)
+    const cards = document.querySelectorAll(".quiz-category-card");
+    cards.forEach(card => {
+      card.style.opacity = "0";
+      card.style.transform = "translateY(30px)";
+      card.style.transition = "";
+      card.classList.remove('flip');
+      card.style.display = "flex"; // التأكد من ظهور البطاقة
+    });
+    
+    // ثالثاً: تشغيل أنيميشن الظهور
+    setTimeout(() => {
+      quizzesCategoriesGrid.style.transition = "all 0.4s ease";
+      quizzesCategoriesGrid.style.opacity = "1";
+      quizzesCategoriesGrid.style.transform = "scale(1)";
+      
+      // إظهار البطاقات واحدة تلو الأخرى
+      cards.forEach((card, idx) => {
+        setTimeout(() => {
+          card.style.transition = "all 0.4s cubic-bezier(0.34, 1.2, 0.64, 1)";
+          card.style.opacity = "1";
+          card.style.transform = "translateY(0)";
+        }, idx * 60);
+      });
+    }, 50);
+  }
   
-  // إخفاء حاوية المسابقة إذا كانت ظاهرة
+  // إخفاء المسابقة
   if (quizContainer) {
     quizContainer.style.display = "none";
     quizContainer.classList.remove("active");
   }
   
-  // إخفاء النتيجة إذا كانت ظاهرة
+  // إخفاء النتيجة
   if (quizResult) {
     quizResult.style.display = "none";
     quizResult.innerHTML = "";
@@ -567,6 +769,7 @@ function backToQuizzesFromLevel() {
   quizState.currentIndex = 0;
   quizState.score = 0;
   quizState.userAnswers = [];
+  quizState.answerLocked = false;
   
   // إعادة تعيين شريط التقدم
   if (quizProgress) quizProgress.style.width = "0%";
@@ -574,8 +777,19 @@ function backToQuizzesFromLevel() {
   // إزالة محدد العملية الحسابية
   const opSelector = document.querySelector(".math-operation-selector");
   if (opSelector) opSelector.remove();
+  
+  // إزالة رسالة الشرح
+  const oldFeedback = document.getElementById("quizFeedback");
+  if (oldFeedback) oldFeedback.remove();
+  
+  // التمرير
+  setTimeout(() => {
+    const quizSection = document.getElementById('quiz');
+    if (quizSection) {
+      quizSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, 150);
 }
-
 // ==================== تحديث شريط التقدم ====================
 function updateProgress() {
   const progress = ((quizState.currentIndex + 1) / quizState.currentQuestions.length) * 100;
@@ -620,6 +834,12 @@ function bindEvents() {
 function initQuizSystem() {
   displayQuizzesCategories();
   bindEvents();
+  
+  // التأكد من ظهور الشبكة
+  if (quizzesCategoriesGrid) {
+    quizzesCategoriesGrid.style.display = "grid";
+    quizzesCategoriesGrid.style.opacity = "1";
+  }
   
   if (levelSelector) levelSelector.style.display = "none";
   if (quizContainer) quizContainer.style.display = "none";
